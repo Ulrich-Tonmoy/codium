@@ -28,11 +28,12 @@ export const SourceProvider = ({
     setSelected(id);
   };
   const addOpenedFile = useCallback((id: string) => {
+    if (opened.includes(id)) return;
     setOpenedFile((prevOpen) => [...prevOpen, id]);
-  }, []);
+  }, [opened]);
   const delOpenedFile = useCallback((id: string) => {
     setOpenedFile((prevOpen) => prevOpen.filter((opened) => opened !== id));
-  }, []);
+  }, [opened]);
 
   return (
     <SourceContext.Provider

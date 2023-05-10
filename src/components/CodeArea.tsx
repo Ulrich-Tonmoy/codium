@@ -52,7 +52,16 @@ const CodeArea = () => {
           );
         })}
       </div>
-      <div className="code-contents"></div>
+      <div className="code-contents">
+        {opened.map((item) => {
+          const file = getFileObject(item) as IFile;
+          if (isImage(file.name)) {
+            return <PreviewImage path={file.path} active={item === selected} />;
+          }
+
+          return <CodeEditor key={item} id={item} active={item === selected} />;
+        })}
+      </div>
     </div>
   );
 };
