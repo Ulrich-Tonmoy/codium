@@ -45,6 +45,7 @@ const CodeArea = () => {
               <FileIcon name={file.name} size="sm" />
               <span>{file.name}</span>
               <i
+                // @ts-ignore 
                 onClick={(e) => close(e, item)}
                 className="px-0.5 rounded-md ri-close-line hover:bg-red-400 hover:text-white"
               ></i>

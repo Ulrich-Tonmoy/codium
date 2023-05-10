@@ -65,6 +65,7 @@ const NavFolderItem = ({ file, active }: Props) => {
       >
         <i className="text-yellow-500 ri-folder-fill"></i>
         <div className="flex items-center justify-between w-full source-header group">
+          {/* @ts-ignore */}
           <span onClick={onShow}>{file.name}</span>
           <i
             onClick={() => setNewFile(true)}

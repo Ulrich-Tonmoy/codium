@@ -37,11 +37,11 @@ const NavFiles = ({ visible, files }: Props) => {
 
         return (
           <div
-            onClick={(ev) => onShow(ev, file)}
+            // @ts-ignore 
+            onClick={(e) => onShow(e, file)}
             key={file.id}
-            className={`source-item ${
-              isSelected ? "source-item-active" : ""
-            } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
+            className={`source-item ${isSelected ? "source-item-active" : ""
+              } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
           >
             <FileIcon name={file.name} />
             <span>{file.name}</span>
