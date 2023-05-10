@@ -1,3 +1,4 @@
+import CodeArea from "./components/CodeArea";
 import SideBar from "./components/SideBar";
 import TitleBar from "./components/TitleBar";
 import { SourceProvider } from "./context/SourceContext";
@@ -12,6 +13,7 @@ function App() {
       >
         <SourceProvider>
           <SideBar />
+          <CodeArea />
         </SourceProvider>
       </div>
     </div>

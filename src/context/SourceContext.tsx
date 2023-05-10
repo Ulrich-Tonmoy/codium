@@ -22,7 +22,7 @@ export const SourceProvider = ({
   children: JSX.Element | JSX.Element[];
 }) => {
   const [selected, setSelected] = useState("");
-  const [openedFile, setOpenedFile] = useState < string[] > ([]);
+  const [opened, setOpenedFile] = useState < string[] > ([]);
 
   const setSelect = (id: string) => {
     setSelected(id);
@@ -36,7 +36,7 @@ export const SourceProvider = ({
 
   return (
     <SourceContext.Provider
-      value={{ selected, setSelected, openedFile, addOpenedFile, delOpenedFile }}
+      value={{ selected, setSelected, opened, addOpenedFile, delOpenedFile }}
     >
       {children}
     </SourceContext.Provider>
@@ -44,8 +44,8 @@ export const SourceProvider = ({
 };
 
 export const useSource = () => {
-  const { selected, setSelect, opened, addOpenedFile, delOpenedFile } =
+  const { selected, setSelected, opened, addOpenedFile, delOpenedFile } =
     useContext(SourceContext);
 
-  return { selected, setSelect, opened, addOpenedFile, delOpenedFile };
+  return { selected, setSelected, opened, addOpenedFile, delOpenedFile };
 };
