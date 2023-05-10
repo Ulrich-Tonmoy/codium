@@ -3,6 +3,31 @@ import { nanoid } from "nanoid";
 import { IFile } from "../types";
 import { saveFileObject } from "../stores/file";
 
+export const readFile = (filePath: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    invoke("get_file_content", { filePath })
+      .then((message: unknown) => {
+        resolve(message as string);
+      })
+      .catch((error) => reject(error));
+  });
+};
+
+export const writeFile = (
+  filePath: string,
+  content: string,
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    invoke("write_file", { filePath, content }).then((message: unknown) => {
+      if (message === "OK") {
+        resolve(message as string);
+      } else {
+        reject("ERROR");
+      }
+    });
+  });
+};
+
 export const readDirectory = (folderPath: string): Promise<IFile[]> => {
   return new Promise((resolve, reject) => {
     invoke("open_folder", { folderPath }).then((message: unknown) => {
