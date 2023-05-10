@@ -36,6 +36,7 @@ const icons: Icons = {
   cs: csharp,
   py: python,
   package: node,
+  lock: node,
   postcss,
   tailwind,
   vite,
@@ -48,7 +49,6 @@ const icons: Icons = {
   jpg: image,
   tiff: image,
   bmp: image,
-  lock: node,
 };
 
 interface IFileIconProps {
