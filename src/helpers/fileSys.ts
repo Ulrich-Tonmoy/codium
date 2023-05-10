@@ -1,6 +1,7 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { nanoid } from "nanoid";
 import { IFile } from "../types";
+import { saveFileObject } from "../stores/file";
 
 export const readDirectory = (folderPath: string): Promise<IFile[]> => {
   return new Promise((resolve, reject) => {
@@ -30,6 +31,7 @@ export const readDirectory = (folderPath: string): Promise<IFile[]> => {
         } else {
           folders.push(entry);
         }
+        saveFileObject(id, entry);
       }
       resolve([...folders, ...entries]);
     });
