@@ -18,7 +18,7 @@ html {
   @apply text-gray-300 bg-blue-800;
 }
 
-.soure-item .source-codes:before {
+.source-item .source-codes:before {
   content: "";
   @apply absolute top-0 bottom-0 border-l border-dotted border-stone-500;
 }
@@ -62,7 +62,7 @@ html {
 }
 
 .project-explorer {
-  @apply w-full text-xs text-left text-gray-400 uppercase;
+  @apply w-full text-xs text-left text-gray-400 capitalize;
 }
 
 .code-structure {
