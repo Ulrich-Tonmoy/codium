@@ -25,7 +25,7 @@ const NavFiles = ({ visible, files }: Props) => {
   };
 
   return (
-    <div className={`source-code ${visible ? "" : "hidden"}`}>
+    <div className={`source-codes ${visible ? "" : "hidden"}`}>
       {files?.map((file) => {
         const isSelected = file.id === selected;
 
