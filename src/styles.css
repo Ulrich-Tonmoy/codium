@@ -23,7 +23,7 @@ html {
   @apply absolute top-0 bottom-0 border-l border-dotted border-stone-500;
 }
 
-.inp {
+.input {
   @apply block w-full rounded-md shadow-sm outline-none sm:text-sm bg-primary;
   @apply text-gray-200;
   @apply px-2 py-0.5;
