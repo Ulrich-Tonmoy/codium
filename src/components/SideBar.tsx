@@ -6,7 +6,7 @@ import { readDirectory } from "../helpers/fileSys";
 
 const SideBar = () => {
   const [projectName, setProjectName] = useState("");
-  const [files, setFile] = useState < IFile[] > ([]);
+  const [files, setFiles] = useState<IFile[]>([]);
 
   const loadFile = async () => {
     const selected = await open({
@@ -22,16 +22,16 @@ const SideBar = () => {
 
   return (
     <aside id="sidebar" className="h-full w-60 shrink-0 bg-darken">
-      <div className="sidebar-header flex items-center justify-between p-4 py-2.5">
+      <div className="sidebar-header flex items-center justify-between p-2.5">
         <button className="project-explorer" onClick={loadFile}>
-          Explorer
+          {projectName ? "Explorer" : "Open Project"}
         </button>
         <span className="text-xs text-gray-400 project-name whitespace-nowrap">
           {projectName}
         </span>
-        <div className="code-structure">
-          <NavFiles visible={true} files={files} />
-        </div>
+      </div>
+      <div className="code-structure">
+        <NavFiles visible={true} files={files} />
       </div>
     </aside>
   );
