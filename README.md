@@ -7,12 +7,17 @@
 
 Current Features:
 
-- Reading files and folders that contains in a directory
-- Creating new file
-- Editing file content
-- Multiple tabs
-- Showing folder structure
-- File icons
+- [x] Reading files and folders that contains in a directory
+- [x] Creating new file
+- [x] Editing file content
+- [x] Multiple tabs
+- [x] Showing folder structure
+- [x] File icons
+
+ToDo:
+
+- [ ] Add New Folder
+- [ ] Add Unsaved File alert
 
 ## Recommended Setup To Work in Windows
 
@@ -24,4 +29,10 @@ Current Features:
 ```properties
 npm i
 npm run tauri dev
+```
+
+## To Build
+
+```properties
+npm run tauri build
 ```
