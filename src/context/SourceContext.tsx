@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 interface ISourceContext {
   selected: string;
@@ -8,12 +8,12 @@ interface ISourceContext {
   delOpenedFile: (id: string) => void;
 }
 
-const SourceContext = createContext<ISourceContext>({
+const SourceContext = createContext < ISourceContext > ({
   selected: "",
-  setSelected: (id) => {},
+  setSelected: (id) => { },
   opened: [],
-  addOpenedFile: (id) => {},
-  delOpenedFile: (id) => {},
+  addOpenedFile: (id) => { },
+  delOpenedFile: (id) => { },
 });
 
 export const SourceProvider = ({
@@ -22,7 +22,7 @@ export const SourceProvider = ({
   children: JSX.Element | JSX.Element[];
 }) => {
   const [selected, setSelected] = useState("");
-  const [openedFile, setOpenedFile] = useState<string[]>([]);
+  const [openedFile, setOpenedFile] = useState < string[] > ([]);
 
   const setSelect = (id: string) => {
     setSelected(id);
@@ -36,7 +36,7 @@ export const SourceProvider = ({
 
   return (
     <SourceContext.Provider
-      value={{ selected, setSelected, opened, addOpenedFile, delOpenedFile }}
+      value={{ selected, setSelected, openedFile, addOpenedFile, delOpenedFile }}
     >
       {children}
     </SourceContext.Provider>

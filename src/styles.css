@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 html {
-  @apply bg-primary w-screen h-screen;
+  @apply w-screen h-screen bg-primary;
 }
 
 .bg-darken {
   background-color: #222426;
 }
 
-.soure-item .source-codes {
-  @apply pl-4 relative;
+.source-item .source-codes {
+  @apply relative pl-4;
 }
 
 .source-item-active {
-  @apply bg-blue-800 text-gray-300;
+  @apply text-gray-300 bg-blue-800;
 }
 
 .soure-item .source-codes:before {
@@ -24,13 +24,13 @@ html {
 }
 
 .inp {
-  @apply block w-full rounded-md outline-none shadow-sm sm:text-sm bg-primary;
+  @apply block w-full rounded-md shadow-sm outline-none sm:text-sm bg-primary;
   @apply text-gray-200;
   @apply px-2 py-0.5;
 }
 
 #titlebar {
-  @apply flex items-center justify-between text-gray-300 pl-2;
+  @apply flex items-center justify-between pl-2 text-gray-300;
   background: #1c1c1c;
   position: fixed;
   top: 0;
@@ -54,7 +54,7 @@ html {
 }
 
 #ttb-close:hover {
-  @apply bg-red-500 text-gray-100;
+  @apply text-gray-100 bg-red-500;
 }
 
 #editor {
@@ -62,7 +62,7 @@ html {
 }
 
 .project-explorer {
-  @apply w-full text-left uppercase text-gray-400 text-xs;
+  @apply w-full text-xs text-left text-gray-400 uppercase;
 }
 
 .code-structure {
