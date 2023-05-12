@@ -28,6 +28,20 @@ export const writeFile = (
   });
 };
 
+export const createFolder = (filePath: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    invoke("create_folder", { folderPath: filePath }).then(
+      (message: unknown) => {
+        if (message === "OK") {
+          resolve(message as string);
+        } else {
+          reject("ERROR");
+        }
+      },
+    );
+  });
+};
+
 export const readDirectory = (folderPath: string): Promise<IFile[]> => {
   return new Promise((resolve, reject) => {
     invoke("open_folder", { folderPath }).then((message: unknown) => {

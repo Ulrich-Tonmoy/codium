@@ -21,7 +21,7 @@ pub struct Post {
     author: String,
 }
 
-pub fn read_directory(dir_path: &str) -> String {
+pub fn read_folder(dir_path: &str) -> String {
     let new_path = Path::new(dir_path);
     println!("new path {:?}", new_path);
     let paths = fs::read_dir(new_path).unwrap();
@@ -65,6 +65,18 @@ pub fn read_directory(dir_path: &str) -> String {
     files_str
 }
 
+pub fn create_folder(path: &str) -> Result<()> {
+    let dir_path = Path::new(path);
+    fs::create_dir(dir_path);
+    Ok(())
+}
+
+pub fn delete_folder(path: &str) -> Result<()> {
+    let folder_path = Path::new(path);
+    fs::remove_dir_all(folder_path);
+    Ok(())
+}
+
 pub fn read_file(path: &str) -> String {
     let contents = fs::read_to_string(path).expect("ERROR");
     contents
@@ -75,26 +87,14 @@ pub fn write_file(path: &str, content: &str) -> String {
     let file_path = Path::new(path);
     let result = match fs::write(file_path, content) {
         Ok(()) => String::from("OK"),
-        Err(_err) => String::from("ERROR")
+        Err(_err) => String::from("ERROR"),
     };
 
     result
 }
 
-pub fn create_directory(path: &str) -> Result<()>{
-    let dir_path = Path::new(path);
-    fs::create_dir(dir_path);
-    Ok(())
-}
-
-pub fn remove_file(path: &str) -> Result<()> {
+pub fn delete_file(path: &str) -> Result<()> {
     let file_path = Path::new(path);
     fs::remove_file(file_path);
-    Ok(())
-}
-
-pub fn remove_folder(path: &str) -> Result<()>{ 
-    let folder_path = Path::new(path);
-    fs::remove_dir_all(folder_path);
     Ok(())
 }

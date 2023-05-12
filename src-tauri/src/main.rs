@@ -11,7 +11,7 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn open_folder(folder_path: &str) -> String {
-    let files = fc::read_directory(folder_path);
+    let files = fc::read_folder(folder_path);
     files
 }
 
@@ -27,9 +27,35 @@ fn write_file(file_path: &str, content: &str) -> String {
     String::from("OK")
 }
 
+#[tauri::command]
+fn delete_file(file_path: &str) -> String {
+    fc::delete_file(file_path);
+    String::from("OK")
+}
+
+#[tauri::command]
+fn create_folder(folder_path: &str) -> String {
+    fc::create_folder(folder_path);
+    String::from("OK")
+}
+
+#[tauri::command]
+fn delete_folder(folder_path: &str) -> String {
+    fc::delete_folder(folder_path);
+    String::from("OK")
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet, open_folder, get_file_content, write_file])
+        .invoke_handler(tauri::generate_handler![
+            greet,
+            open_folder,
+            get_file_content,
+            write_file,
+            delete_file,
+            create_folder,
+            delete_folder
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
