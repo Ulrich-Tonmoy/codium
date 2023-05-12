@@ -1,7 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod file;
+mod fc;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -11,19 +11,19 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn open_folder(folder_path: &str) -> String {
-    let files = file::read_directory(folder_path);
+    let files = fc::read_directory(folder_path);
     files
 }
 
 #[tauri::command]
 fn get_file_content(file_path: &str) -> String {
-    let content = file::read_file(file_path);
+    let content = fc::read_file(file_path);
     content
 }
 
 #[tauri::command]
 fn write_file(file_path: &str, content: &str) -> String {
-    file::write_file(file_path, content);
+    fc::write_file(file_path, content);
     String::from("OK")
 }
 
