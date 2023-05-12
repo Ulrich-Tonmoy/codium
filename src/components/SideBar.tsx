@@ -27,7 +27,7 @@ const SideBar = () => {
           {projectName ? "Explorer" : "Open Project"}
         </button>
         <span className="text-xs text-gray-400 project-name whitespace-nowrap">
-          {projectName}
+          {projectName.split("\\")[projectName.split("\\").length - 1]}
         </span>
       </div>
       <div className="code-structure">
