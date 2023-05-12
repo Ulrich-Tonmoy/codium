@@ -56,6 +56,10 @@ const TitleBar = () => {
           className="text-green-500 cursor-pointer ri-git-branch-line"
           title="Source Control"
         ></i>
+        <i
+          className="text-green-500 cursor-pointer ri-settings-5-line"
+          title="Settings"
+        ></i>
       </div>
       <div>
         {projectName ? (
