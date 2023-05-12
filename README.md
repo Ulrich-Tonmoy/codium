@@ -23,10 +23,14 @@
 - [x] Create new folder and toggle folder open close icon
 - [x] Only show the Project Name instead of the whole path
 - [x] Project Open and ProjectName moved from Explorer to TitleBar
+- [x] Delete file and folder
 
 ToDo:
 
 - [ ] Add Unsaved File alert
+- [ ] Add Terminal
+- [ ] Add Search
+- [ ] Add Git
 
 ## Recommended Setup To Work in Windows
 
