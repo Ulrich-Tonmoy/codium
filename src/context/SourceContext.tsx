@@ -1,8 +1,11 @@
 import { createContext, useCallback, useContext, useState } from "react";
+import { IFile } from "../types";
 
 interface ISourceContext {
   projectName: string;
   updateProjectName: (name: string) => void;
+  files: IFile[];
+  setFiles: (file: IFile[]) => {};
   selected: string;
   setSelected: (id: string) => void;
   opened: string[];
@@ -13,6 +16,8 @@ interface ISourceContext {
 const SourceContext = createContext<ISourceContext>({
   projectName: "",
   updateProjectName: (name) => {},
+  files: "",
+  setFiles: (file) => {},
   selected: "",
   setSelected: (id) => {},
   opened: [],
@@ -27,6 +32,7 @@ export const SourceProvider = ({
 }) => {
   const [selected, setSelected] = useState("");
   const [projectName, setProjectName] = useState("");
+  const [files, setFiles] = useState<IFile[]>([]);
   const [opened, setOpenedFile] = useState<string[]>([]);
 
   const updateProjectName = (name: string) => {
@@ -62,6 +68,8 @@ export const SourceProvider = ({
         delOpenedFile,
         projectName,
         updateProjectName,
+        files,
+        setFiles,
       }}
     >
       {children}
@@ -78,6 +86,8 @@ export const useSource = () => {
     delOpenedFile,
     projectName,
     updateProjectName,
+    files,
+    setFiles,
   } = useContext(SourceContext);
 
   return {
@@ -88,5 +98,7 @@ export const useSource = () => {
     delOpenedFile,
     projectName,
     updateProjectName,
+    files,
+    setFiles,
   };
 };

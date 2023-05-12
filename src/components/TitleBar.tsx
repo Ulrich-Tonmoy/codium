@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { useSource } from "../context/SourceContext";
+import { readDirectory } from "../helpers/fileSys";
+import { open } from "@tauri-apps/api/dialog";
 
 const TitleBar = () => {
-  const { projectName } = useSource();
+  const { projectName, updateProjectName, setFiles } = useSource();
   const [isScaleUp, setIsScaleUp] = useState(false);
 
   const onMinimize = () => appWindow.minimize();
@@ -17,13 +19,25 @@ const TitleBar = () => {
   };
   const onClose = () => appWindow.close();
 
+  const loadFile = async () => {
+    const selected = await open({
+      directory: true,
+    });
+
+    if (!selected) return;
+    updateProjectName(selected as string);
+    readDirectory(selected + "/").then((files) => {
+      setFiles(files);
+    });
+  };
+
   return (
     <div id="titlebar" data-tauri-drag-region>
       <div className="flex items-center gap-1">
         <img
           src="/logo.png"
           alt="codium"
-          className="w-5 mr-2 cursor-pointer"
+          className="w-5 mr-2 cursor-default"
           title="Codium"
         />
         <i
@@ -46,12 +60,18 @@ const TitleBar = () => {
       <div>
         {projectName ? (
           <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
-            <i className="mr-2 text-base text-green-500 cursor-pointer ri-search-2-line"></i>
+            <i
+              className="mr-2 text-base text-green-500 cursor-pointer ri-search-2-line"
+              onClick={loadFile}
+            ></i>
             {projectName.split("\\")[projectName.split("\\").length - 1]} -
             Codium
           </span>
         ) : (
-          <span className="flex items-center text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap">
+          <span
+            className="flex items-center text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap"
+            onClick={loadFile}
+          >
             <i className="mr-2 text-base text-green-500 ri-search-2-line"></i>
             Open Project - Codium
           </span>
