@@ -3,6 +3,7 @@ import { appWindow } from "@tauri-apps/api/window";
 import { useSource } from "../context/SourceContext";
 
 const TitleBar = () => {
+  const { projectName } = useSource();
   const [isScaleUp, setIsScaleUp] = useState(false);
 
   const onMinimize = () => appWindow.minimize();
@@ -43,9 +44,18 @@ const TitleBar = () => {
         ></i>
       </div>
       <div>
-        <span className="text-xs text-gray-400 project-name whitespace-nowrap">
-          Open Project - Codium
-        </span>
+        {projectName ? (
+          <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
+            <i className="mr-2 text-base text-green-500 cursor-pointer ri-search-2-line"></i>
+            {projectName.split("\\")[projectName.split("\\").length - 1]} -
+            Codium
+          </span>
+        ) : (
+          <span className="flex items-center text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap">
+            <i className="mr-2 text-base text-green-500 ri-search-2-line"></i>
+            Open Project - Codium
+          </span>
+        )}
       </div>
       <div className="titlebar-actions">
         <i className="titlebar-icon ri-subtract-line" onClick={onMinimize}></i>

@@ -3,9 +3,10 @@ import { IFile } from "../types/index";
 import { open } from "@tauri-apps/api/dialog";
 import NavFiles from "./NavFiles";
 import { readDirectory } from "../helpers/fileSys";
+import { useSource } from "../context/SourceContext";
 
 const SideBar = () => {
-  const [projectName, setProjectName] = useState("");
+  const { updateProjectName } = useSource();
   const [files, setFiles] = useState<IFile[]>([]);
 
   const loadFile = async () => {
@@ -14,7 +15,7 @@ const SideBar = () => {
     });
 
     if (!selected) return;
-    setProjectName(selected as string);
+    updateProjectName(selected as string);
     readDirectory(selected + "/").then((files) => {
       setFiles(files);
     });
@@ -24,10 +25,10 @@ const SideBar = () => {
     <aside id="sidebar" className="h-full w-60 shrink-0 bg-darken">
       <div className="sidebar-header flex items-center justify-between p-2.5">
         <button className="project-explorer" onClick={loadFile}>
-          {projectName ? "Explorer" : "Open Project"}
+          Explorer
         </button>
-        <span className="text-xs text-gray-400 project-name whitespace-nowrap">
-          {projectName.split("\\")[projectName.split("\\").length - 1]}
+        <span className="text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap">
+          <i class="ri-more-fill"></i>
         </span>
       </div>
       <div className="code-structure">
