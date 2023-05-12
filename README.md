@@ -5,7 +5,14 @@
     <h3></h3>
 </div>
 
-Current Features:
+Code flow
+
+<div id="vscodium-logo" align="center">
+    <img src="./docs/core 1.png" alt="Code flow" width="330"/>
+    <img src="./docs/core 2.png" alt="Code flow" width="330"/>
+</div>
+
+0.0.1:
 
 - [x] Reading files and folders that contains in a directory
 - [x] Creating new file
