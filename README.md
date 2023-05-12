@@ -6,6 +6,7 @@
 </div>
 
 <div id="vscodium-logo" align="center">
+    <img src="./docs/codium.png" alt="Codium" width="330"/>
     <img src="./docs/core.png" alt="Code flow" width="330"/>
 </div>
 
