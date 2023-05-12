@@ -9,7 +9,7 @@ const SideBar = () => {
       <div className="sidebar-header flex items-center justify-between p-2.5">
         <span className="cursor-default project-explorer">Explorer</span>
         <span className="text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap">
-          <i class="ri-more-fill"></i>
+          <i className="ri-more-fill"></i>
         </span>
       </div>
       <div className="code-structure">
