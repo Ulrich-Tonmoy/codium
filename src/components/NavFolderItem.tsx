@@ -93,11 +93,13 @@ const NavFolderItem = ({ file, active }: Props) => {
           <span>
             <i
               onClick={() => setNewFile(true)}
-              className="invisible mr-1 ri-add-line group-hover:visible"
+              className="invisible mr-1 ri-add-line group-hover:visible hover:bg-gray-500"
+              title="New File"
             ></i>
             <i
               onClick={() => setNewFolder(true)}
-              className="invisible ri-folder-add-line group-hover:visible"
+              className="invisible ri-folder-add-line group-hover:visible hover:bg-gray-500"
+              title="New Folder"
             ></i>
           </span>
         </div>
@@ -112,6 +114,7 @@ const NavFolderItem = ({ file, active }: Props) => {
             onChange={(e) => setFilename(e.target.value)}
             onKeyUp={(e) => onEnter(e.key)}
             className="input"
+            autoFocus
           />
         </div>
       ) : null}
@@ -124,6 +127,7 @@ const NavFolderItem = ({ file, active }: Props) => {
             onChange={(e) => setFilename(e.target.value)}
             onKeyUp={(e) => onEnter(e.key)}
             className="input"
+            autoFocus
           />
         </div>
       ) : null}
