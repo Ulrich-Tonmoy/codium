@@ -11,6 +11,9 @@ interface ISourceContext {
   opened: string[];
   addOpenedFile: (id: string) => void;
   delOpenedFile: (id: string) => void;
+  contextMenu: string;
+  setContextMenu: (type: boolean) => void;
+  showContextMenu: (e: HTMLDivElement, type: string) => void;
 }
 
 const SourceContext = createContext<ISourceContext>({
@@ -23,6 +26,9 @@ const SourceContext = createContext<ISourceContext>({
   opened: [],
   addOpenedFile: (id) => {},
   delOpenedFile: (id) => {},
+  contextMenu: "",
+  setContextMenu: (type: boolean) => {},
+  showContextMenu: (e: HTMLDivElement, type: string) => {},
 });
 
 export const SourceProvider = ({
@@ -34,6 +40,7 @@ export const SourceProvider = ({
   const [projectName, setProjectName] = useState("");
   const [files, setFiles] = useState<IFile[]>([]);
   const [opened, setOpenedFile] = useState<string[]>([]);
+  const [contextMenu, setContextMenu] = useState<string>("");
 
   const updateProjectName = (name: string) => {
     setProjectName(name);
@@ -58,6 +65,14 @@ export const SourceProvider = ({
     [opened],
   );
 
+  const showContextMenu = (e: HTMLDivElement, type: string) => {
+    e.preventDefault();
+    const el = document.getElementById("context-menu");
+    el.style.top = e.pageY + 8 + "px";
+    el.style.left = e.pageX + "px";
+    setContextMenu(type);
+  };
+
   return (
     <SourceContext.Provider
       value={{
@@ -70,6 +85,9 @@ export const SourceProvider = ({
         updateProjectName,
         files,
         setFiles,
+        contextMenu,
+        setContextMenu,
+        showContextMenu,
       }}
     >
       {children}
@@ -88,6 +106,9 @@ export const useSource = () => {
     updateProjectName,
     files,
     setFiles,
+    contextMenu,
+    setContextMenu,
+    showContextMenu,
   } = useContext(SourceContext);
 
   return {
@@ -100,5 +121,8 @@ export const useSource = () => {
     updateProjectName,
     files,
     setFiles,
+    contextMenu,
+    setContextMenu,
+    showContextMenu,
   };
 };

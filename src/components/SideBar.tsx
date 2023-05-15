@@ -1,5 +1,6 @@
 import NavFiles from "./NavFiles";
 import { useSource } from "../context/SourceContext";
+import ContextMenu from "./ContextMenu";
 
 const SideBar = () => {
   const { files } = useSource();
@@ -15,6 +16,7 @@ const SideBar = () => {
       <div className="code-structure">
         <NavFiles visible={true} files={files} />
       </div>
+      <ContextMenu />
     </aside>
   );
 };

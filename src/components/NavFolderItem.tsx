@@ -4,6 +4,7 @@ import { createFolder, readDirectory, writeFile } from "../helpers/fileSys";
 import { saveFileObject } from "../stores/file";
 import { IFile } from "../types";
 import NavFiles from "./NavFiles";
+import { useSource } from "../context/SourceContext";
 
 interface Props {
   file: IFile;
@@ -17,6 +18,7 @@ const NavFolderItem = ({ file, active }: Props) => {
   const [newFile, setNewFile] = useState(false);
   const [newFolder, setNewFolder] = useState(false);
   const [filename, setFilename] = useState("");
+  const { showContextMenu } = useSource();
 
   const onShow = async (e: MouseEvent<HTMLSpanElement, MouseEvent>) => {
     e.stopPropagation();
@@ -84,6 +86,14 @@ const NavFolderItem = ({ file, active }: Props) => {
     }
   };
 
+  window.addEventListener("click", (event) => {
+    const el = document.getElementById("new-input");
+    if (!el.contains(event.target)) {
+      setNewFile(false);
+      setNewFolder(false);
+    }
+  });
+
   return (
     <div className="source-item">
       <div
@@ -91,10 +101,11 @@ const NavFolderItem = ({ file, active }: Props) => {
           active ? "bg-gray-200" : ""
         } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
         onClick={onShow}
+        onContextMenu={(e) => showContextMenu(e, "Folder")}
       >
         <span>
           <i
-            class={`${
+            className={`${
               unFold ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"
             }`}
           ></i>
@@ -122,7 +133,7 @@ const NavFolderItem = ({ file, active }: Props) => {
         </div>
       </div>
       {newFile ? (
-        <div className="mx-4 flex items-center gap-0.5 p-2">
+        <div id="new-input" className="mx-4 flex items-center gap-0.5 p-2">
           <i className="text-gray-300 ri-file-edit-line"></i>
           <input
             type="text"
@@ -135,7 +146,7 @@ const NavFolderItem = ({ file, active }: Props) => {
         </div>
       ) : null}
       {newFolder ? (
-        <div className="mx-4 flex items-center gap-0.5 p-2">
+        <div id="new-input" className="mx-4 flex items-center gap-0.5 p-2">
           <i className="text-gray-300 ri-folder-add-line"></i>
           <input
             type="text"
