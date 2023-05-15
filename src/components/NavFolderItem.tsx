@@ -32,6 +32,16 @@ const NavFolderItem = ({ file, active }: Props) => {
     setUnFold(!unFold);
   };
 
+  const onClickNew = (type: string) => {
+    if (type === "File") {
+      setNewFolder(false);
+      setNewFile(true);
+    } else {
+      setNewFile(false);
+      setNewFolder(true);
+    }
+  };
+
   const onEnter = (key: string) => {
     if (key === "Escape") {
       setNewFile(false);
@@ -99,12 +109,12 @@ const NavFolderItem = ({ file, active }: Props) => {
           <span>{file.name}</span>
           <span>
             <i
-              onClick={() => setNewFile(true)}
+              onClick={() => onClickNew("File")}
               className="invisible mr-1 ri-add-line group-hover:visible hover:bg-gray-500"
               title="New File"
             ></i>
             <i
-              onClick={() => setNewFolder(true)}
+              onClick={() => onClickNew("Folder")}
               className="invisible ri-folder-add-line group-hover:visible hover:bg-gray-500"
               title="New Folder"
             ></i>
