@@ -80,16 +80,23 @@ const NavFolderItem = ({ file, active }: Props) => {
         className={`source-folder ${
           active ? "bg-gray-200" : ""
         } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
+        onClick={onShow}
       >
-        <i
-          onClick={onShow}
-          className={`text-yellow-500 ${
-            unFold ? "ri-folder-open-fill" : "ri-folder-fill"
-          }`}
-        ></i>
+        <span>
+          <i
+            class={`${
+              unFold ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"
+            }`}
+          ></i>
+          <i
+            className={`text-yellow-500 ${
+              unFold ? "ri-folder-open-fill" : "ri-folder-fill"
+            }`}
+          ></i>
+        </span>
         <div className="flex items-center justify-between w-full source-header group">
           {/* @ts-ignore */}
-          <span onClick={onShow}>{file.name}</span>
+          <span>{file.name}</span>
           <span>
             <i
               onClick={() => setNewFile(true)}
