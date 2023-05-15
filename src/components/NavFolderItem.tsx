@@ -104,7 +104,6 @@ const NavFolderItem = ({ file, active }: Props) => {
           </span>
         </div>
       </div>
-      {/* TODO: Input should be auto focused*/}
       {newFile ? (
         <div className="mx-4 flex items-center gap-0.5 p-2">
           <i className="text-gray-300 ri-file-edit-line"></i>
