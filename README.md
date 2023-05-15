@@ -24,11 +24,15 @@
 - [x] Create new folder and toggle folder open close icon
 - [x] Only show the Project Name instead of the whole path
 - [x] Project Open and ProjectName moved from Explorer to TitleBar
+- [x] Create new folder and file autofocus the input field
 - [x] Delete file and folder
+- [x] Context Menu
+- [x] Fixed Image view
 
 ToDo:
 
 - [ ] Add Unsaved File alert
+- [ ] Fix context menu
 - [ ] Add Terminal
 - [ ] Add Search
 - [ ] Add Git
