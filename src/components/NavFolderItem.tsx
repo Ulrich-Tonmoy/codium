@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useState, MouseEvent } from "react";
+import React, { useState } from "react";
 import { createFolder, readDirectory, writeFile } from "../helpers/fileSys";
 import { saveFileObject } from "../stores/file";
 import { IFile } from "../types";
@@ -20,7 +20,7 @@ const NavFolderItem = ({ file, active }: Props) => {
   const [filename, setFilename] = useState("");
   const { showContextMenu } = useSource();
 
-  const onShow = async (e: MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const onShow = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (loaded) {
@@ -90,7 +90,7 @@ const NavFolderItem = ({ file, active }: Props) => {
   window.addEventListener("click", (event) => {
     const el = document.getElementById("new-input");
     if (el)
-      if (!el.contains(event.target)) {
+      if (!el.contains(event.target as Node)) {
         setNewFile(false);
         setNewFolder(false);
       }
@@ -103,7 +103,7 @@ const NavFolderItem = ({ file, active }: Props) => {
           active ? "bg-gray-200" : ""
         } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
         onClick={onShow}
-        onContextMenu={(e) => showContextMenu(e, file)}
+        onContextMenu={(e: React.MouseEvent) => showContextMenu(e, file)}
       >
         <span>
           <i

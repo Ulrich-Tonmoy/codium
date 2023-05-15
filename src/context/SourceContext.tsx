@@ -1,11 +1,11 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import React, { createContext, useCallback, useContext, useState } from "react";
 import { IFile } from "../types";
 
 interface ISourceContext {
   projectName: string;
   updateProjectName: (name: string) => void;
   files: IFile[];
-  setFiles: (file: IFile[]) => {};
+  setFiles: (file: IFile[]) => void;
   selected: string;
   setSelected: (id: string) => void;
   opened: string[];
@@ -13,22 +13,22 @@ interface ISourceContext {
   delOpenedFile: (id: string) => void;
   contextMenu: IFile;
   setContextMenu: (file: IFile) => void;
-  showContextMenu: (e: HTMLDivElement, type: string) => void;
+  showContextMenu: (e: React.MouseEvent, file: IFile) => void;
 }
 
 const SourceContext = createContext<ISourceContext>({
   projectName: "",
   updateProjectName: (name) => {},
-  files: "",
+  files: [] as IFile[],
   setFiles: (file) => {},
   selected: "",
   setSelected: (id) => {},
   opened: [],
   addOpenedFile: (id) => {},
   delOpenedFile: (id) => {},
-  contextMenu: "",
+  contextMenu: {} as IFile,
   setContextMenu: (file: IFile) => {},
-  showContextMenu: (e: HTMLDivElement, type: string) => {},
+  showContextMenu: (e: React.MouseEvent, file: IFile) => {},
 });
 
 export const SourceProvider = ({
@@ -40,7 +40,7 @@ export const SourceProvider = ({
   const [projectName, setProjectName] = useState("");
   const [files, setFiles] = useState<IFile[]>([]);
   const [opened, setOpenedFile] = useState<string[]>([]);
-  const [contextMenu, setContextMenu] = useState<IFile>({});
+  const [contextMenu, setContextMenu] = useState<IFile>({} as IFile);
 
   const updateProjectName = (name: string) => {
     setProjectName(name);
@@ -65,9 +65,9 @@ export const SourceProvider = ({
     [opened],
   );
 
-  const showContextMenu = (e: HTMLDivElement, file: IFile) => {
+  const showContextMenu = (e: React.MouseEvent, file: IFile) => {
     e.preventDefault();
-    const el = document.getElementById("context-menu");
+    const el = document.getElementById("context-menu") as HTMLDivElement;
     el.style.top = e.pageY + 8 + "px";
     el.style.left = e.pageX + "px";
     setContextMenu(file);

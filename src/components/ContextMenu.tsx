@@ -2,12 +2,13 @@ import { useSource } from "../context/SourceContext";
 import { deleteFile, deleteFolder } from "../helpers/fileSys";
 import { deleteFileObject } from "../stores/file";
 import { ask } from "@tauri-apps/api/dialog";
+import { IFile } from "../types";
 
 const ContextMenu = () => {
   const { contextMenu, setContextMenu, files, setFiles } = useSource();
 
   window.addEventListener("click", () => {
-    setContextMenu({});
+    setContextMenu({} as IFile);
   });
 
   const onDelete = async () => {
