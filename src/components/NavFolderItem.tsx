@@ -88,10 +88,11 @@ const NavFolderItem = ({ file, active }: Props) => {
 
   window.addEventListener("click", (event) => {
     const el = document.getElementById("new-input");
-    if (!el.contains(event.target)) {
-      setNewFile(false);
-      setNewFolder(false);
-    }
+    if (el)
+      if (!el.contains(event.target)) {
+        setNewFile(false);
+        setNewFolder(false);
+      }
   });
 
   return (
