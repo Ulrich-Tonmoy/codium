@@ -61,7 +61,7 @@ const TitleBar = () => {
           title="Settings"
         ></i>
       </div>
-      <div>
+      <div className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none sm:text-sm bg-primary">
         {projectName ? (
           <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
             <i
