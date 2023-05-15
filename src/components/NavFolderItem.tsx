@@ -30,6 +30,7 @@ const NavFolderItem = ({ file, active }: Props) => {
 
     const entries = await readDirectory(file.path + "/");
     setLoaded(true);
+    console.log(entries);
     setFiles(entries);
     setUnFold(!unFold);
   };
@@ -102,7 +103,7 @@ const NavFolderItem = ({ file, active }: Props) => {
           active ? "bg-gray-200" : ""
         } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
         onClick={onShow}
-        onContextMenu={(e) => showContextMenu(e, "Folder")}
+        onContextMenu={(e) => showContextMenu(e, file)}
       >
         <span>
           <i

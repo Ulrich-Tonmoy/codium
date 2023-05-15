@@ -11,8 +11,8 @@ interface ISourceContext {
   opened: string[];
   addOpenedFile: (id: string) => void;
   delOpenedFile: (id: string) => void;
-  contextMenu: string;
-  setContextMenu: (type: boolean) => void;
+  contextMenu: IFile;
+  setContextMenu: (file: IFile) => void;
   showContextMenu: (e: HTMLDivElement, type: string) => void;
 }
 
@@ -27,7 +27,7 @@ const SourceContext = createContext<ISourceContext>({
   addOpenedFile: (id) => {},
   delOpenedFile: (id) => {},
   contextMenu: "",
-  setContextMenu: (type: boolean) => {},
+  setContextMenu: (file: IFile) => {},
   showContextMenu: (e: HTMLDivElement, type: string) => {},
 });
 
@@ -40,7 +40,7 @@ export const SourceProvider = ({
   const [projectName, setProjectName] = useState("");
   const [files, setFiles] = useState<IFile[]>([]);
   const [opened, setOpenedFile] = useState<string[]>([]);
-  const [contextMenu, setContextMenu] = useState<string>("");
+  const [contextMenu, setContextMenu] = useState<IFile>({});
 
   const updateProjectName = (name: string) => {
     setProjectName(name);
@@ -65,12 +65,12 @@ export const SourceProvider = ({
     [opened],
   );
 
-  const showContextMenu = (e: HTMLDivElement, type: string) => {
+  const showContextMenu = (e: HTMLDivElement, file: IFile) => {
     e.preventDefault();
     const el = document.getElementById("context-menu");
     el.style.top = e.pageY + 8 + "px";
     el.style.left = e.pageX + "px";
-    setContextMenu(type);
+    setContextMenu(file);
   };
 
   return (

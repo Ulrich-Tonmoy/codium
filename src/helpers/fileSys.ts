@@ -44,19 +44,21 @@ export const createFolder = (filePath: string): Promise<string> => {
 
 export const deleteFolder = (filePath: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    invoke("delete_folder", { filePath }).then((message: unknown) => {
-      if (message === "OK") {
-        resolve(message as string);
-      } else {
-        reject("ERROR");
-      }
-    });
+    invoke("delete_folder", { folderPath: filePath }).then(
+      (message: unknown) => {
+        if (message === "OK") {
+          resolve(message as string);
+        } else {
+          reject("ERROR");
+        }
+      },
+    );
   });
 };
 
 export const deleteFile = (filePath: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    invoke("delete_file", { folderPath: filePath }).then((message: unknown) => {
+    invoke("delete_file", { filePath }).then((message: unknown) => {
       if (message === "OK") {
         resolve(message as string);
       } else {
