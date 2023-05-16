@@ -1,9 +1,9 @@
 import NavFiles from "./NavFiles";
-import { useSource } from "../context/SourceContext";
+import { useSelector } from "react-redux";
 import ContextMenu from "./ContextMenu";
 
 const SideBar = () => {
-  const { files } = useSource();
+  const { files } = useSelector((state: RootState) => state.source);
 
   return (
     <aside id="sidebar" className="h-full w-60 shrink-0 bg-darken">

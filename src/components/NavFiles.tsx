@@ -1,8 +1,13 @@
 import { MouseEvent } from "react";
-import { useSource } from "../context/SourceContext";
+import { useSelector, useDispatch } from "react-redux";
 import { IFile } from "./../types/index";
 import FileIcon from "./FileIcon";
 import NavFolderItem from "./NavFolderItem";
+import {
+  addOpenedFile,
+  setContextMenu,
+  setSelected,
+} from "../redux/sourceSlice";
 
 interface Props {
   files: IFile[];
@@ -10,7 +15,8 @@ interface Props {
 }
 
 const NavFiles = ({ visible, files }: Props) => {
-  const { setSelected, selected, addOpenedFile, showContextMenu } = useSource();
+  const dispatch = useDispatch();
+  const { selected } = useSelector((state: RootState) => state.source);
 
   const onShow = async (
     e: MouseEvent<HTMLDivElement, MouseEvent>,
@@ -19,9 +25,17 @@ const NavFiles = ({ visible, files }: Props) => {
     e.stopPropagation();
 
     if (file.kind === "file") {
-      setSelected(file.id);
-      addOpenedFile(file.id);
+      dispatch(setSelected(file.id));
+      dispatch(addOpenedFile(file.id));
     }
+  };
+
+  const showContextMenu = (e: React.MouseEvent, file: IFile) => {
+    e.preventDefault();
+    const el = document.getElementById("context-menu") as HTMLDivElement;
+    el.style.top = e.pageY + 8 + "px";
+    el.style.left = e.pageX + "px";
+    dispatch(setContextMenu(file));
   };
 
   return (

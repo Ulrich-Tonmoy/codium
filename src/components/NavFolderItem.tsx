@@ -4,7 +4,8 @@ import { createFolder, readDirectory, writeFile } from "../helpers/fileSys";
 import { saveFileObject } from "../stores/file";
 import { IFile } from "../types";
 import NavFiles from "./NavFiles";
-import { useSource } from "../context/SourceContext";
+import { useDispatch } from "react-redux";
+import { setContextMenu } from "../redux/sourceSlice";
 
 interface Props {
   file: IFile;
@@ -12,13 +13,14 @@ interface Props {
 }
 
 const NavFolderItem = ({ file, active }: Props) => {
+  const dispatch = useDispatch();
+
   const [files, setFiles] = useState<IFile[]>([]);
   const [unFold, setUnFold] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [newFile, setNewFile] = useState(false);
   const [newFolder, setNewFolder] = useState(false);
   const [filename, setFilename] = useState("");
-  const { showContextMenu } = useSource();
 
   const onShow = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -85,6 +87,14 @@ const NavFolderItem = ({ file, active }: Props) => {
         setFilename("");
       });
     }
+  };
+
+  const showContextMenu = (e: React.MouseEvent, file: IFile) => {
+    e.preventDefault();
+    const el = document.getElementById("context-menu") as HTMLDivElement;
+    el.style.top = e.pageY + 8 + "px";
+    el.style.left = e.pageX + "px";
+    dispatch(setContextMenu(file));
   };
 
   window.addEventListener("click", (event) => {

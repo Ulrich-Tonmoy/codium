@@ -1,14 +1,18 @@
-import { useSource } from "../context/SourceContext";
+import { useSelector, useDispatch } from "react-redux";
 import { deleteFile, deleteFolder } from "../helpers/fileSys";
 import { deleteFileObject } from "../stores/file";
 import { ask } from "@tauri-apps/api/dialog";
 import { IFile } from "../types";
+import { setContextMenu, setFiles } from "../redux/sourceSlice";
 
 const ContextMenu = () => {
-  const { contextMenu, setContextMenu, files, setFiles } = useSource();
+  const dispatch = useDispatch();
+  const { files, contextMenu } = useSelector(
+    (state: RootState) => state.source,
+  );
 
   window.addEventListener("click", () => {
-    setContextMenu({} as IFile);
+    dispatch(setContextMenu({} as IFile));
   });
 
   const onDelete = async () => {
@@ -21,7 +25,7 @@ const ContextMenu = () => {
         deleteFile(contextMenu.path).then(() => {
           deleteFileObject(contextMenu.id);
           const newFiles = files.filter((f) => f.id !== contextMenu.id);
-          setFiles(newFiles);
+          dispatch(setFiles(newFiles));
         });
       }
     } else {
@@ -36,7 +40,7 @@ const ContextMenu = () => {
           console.log(contextMenu.id);
           console.log(files);
           console.log(newFiles);
-          setFiles(newFiles);
+          dispatch(setFiles(newFiles));
         });
       }
     }

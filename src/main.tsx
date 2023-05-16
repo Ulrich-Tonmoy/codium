@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { SourceProvider } from "./context/SourceContext";
+import { SourceProvider } from "./redux/SourceContext";
 import "remixicon/fonts/remixicon.css";
 import "./styles.css";
 

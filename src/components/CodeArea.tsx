@@ -1,14 +1,17 @@
 import { IFile } from "../types";
-import { useSource } from "../context/SourceContext";
 import { getFileObject } from "../stores/file";
 import FileIcon from "./FileIcon";
 import useHorizontalScroll from "../helpers/useHorizontalScroll";
 import PreviewImage from "./PreviewImage";
 import CodeEditor from "./CodeEditor";
 import { MouseEvent } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { delOpenedFile, setSelected } from "../redux/sourceSlice";
 
 const CodeArea = () => {
-  const { opened, selected, setSelected, delOpenedFile } = useSource();
+  const dispatch = useDispatch();
+  const { selected, opened } = useSelector((state: RootState) => state.source);
+
   const scrollRef = useHorizontalScroll();
 
   const isImage = (name: string) => {
@@ -18,12 +21,12 @@ const CodeArea = () => {
   };
 
   const onSelectItem = (id: string) => {
-    setSelected(id);
+    dispatch(setSelected(id));
   };
 
   const close = (e: MouseEvent<HTMLElement, MouseEvent>, id: string) => {
     e.stopPropagation();
-    delOpenedFile(id);
+    dispatch(delOpenedFile(id));
   };
 
   return (
@@ -45,7 +48,7 @@ const CodeArea = () => {
               <FileIcon name={file.name} size="sm" />
               <span>{file.name}</span>
               <i
-                // @ts-ignore 
+                // @ts-ignore
                 onClick={(e) => close(e, item)}
                 className="px-0.5 rounded-md ri-close-line hover:bg-red-400 hover:text-white"
               ></i>
@@ -54,13 +57,21 @@ const CodeArea = () => {
         })}
       </div>
       <div className="code-contents">
-        {opened.map((item) => {
+        {opened.map((item, index) => {
           const file = getFileObject(item) as IFile;
           if (isImage(file.name)) {
-            return <PreviewImage path={file.path} active={item === selected} />;
+            return (
+              <PreviewImage
+                key={index}
+                path={file.path}
+                active={item === selected}
+              />
+            );
           }
 
-          return <CodeEditor key={item} id={item} active={item === selected} />;
+          return (
+            <CodeEditor key={index} id={item} active={item === selected} />
+          );
         })}
       </div>
     </div>

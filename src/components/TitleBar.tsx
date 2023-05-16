@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
-import { useSource } from "../context/SourceContext";
+import { useSelector, useDispatch } from "react-redux";
 import { readDirectory } from "../helpers/fileSys";
 import { open } from "@tauri-apps/api/dialog";
+import { setFiles, updateProjectName } from "../redux/sourceSlice";
 
 const TitleBar = () => {
-  const { projectName, updateProjectName, setFiles } = useSource();
+  const dispatch = useDispatch();
+  const { projectName } = useSelector((state: RootState) => state.source);
+
   const [isScaleUp, setIsScaleUp] = useState(false);
 
   const onMinimize = () => appWindow.minimize();
@@ -25,9 +28,9 @@ const TitleBar = () => {
     });
 
     if (!selected) return;
-    updateProjectName(selected as string);
+    dispatch(updateProjectName(selected as string));
     readDirectory(selected + "/").then((files) => {
-      setFiles(files);
+      dispatch(setFiles(files));
     });
   };
 
