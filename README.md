@@ -1,6 +1,6 @@
 <div id="vscodium-logo" align="center">
     <br />
-    <img src="./src/assets/icons/png/green/nobg_jared18.png" alt="Codium Logo" width="200"/>
+    <img src="./app-icons/png/green/nobg_jared18.png" alt="Codium Logo" width="200"/>
     <h1>Codium</h1>
     <h3></h3>
 </div>
