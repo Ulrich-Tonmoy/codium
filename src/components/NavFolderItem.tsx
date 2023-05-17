@@ -6,6 +6,15 @@ import { IFile } from "../types";
 import NavFiles from "./NavFiles";
 import { useDispatch } from "react-redux";
 import { setContextMenu } from "../redux/sourceSlice";
+import {
+  arrowDown,
+  arrowRight,
+  edit,
+  fileCreate,
+  folder,
+  folderCreate,
+  folderOpen,
+} from "../assets";
 
 interface Props {
   file: IFile;
@@ -111,42 +120,38 @@ const NavFolderItem = ({ file, active }: Props) => {
       <div
         className={`source-folder ${
           active ? "bg-gray-200" : ""
-        } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
+        } flex items-center py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
         onClick={onShow}
         onContextMenu={(e: React.MouseEvent) => showContextMenu(e, file)}
       >
-        <span>
-          <i
-            className={`${
-              unFold ? "ri-arrow-down-s-line" : "ri-arrow-right-s-line"
-            }`}
-          ></i>
-          <i
-            className={`text-yellow-500 ${
-              unFold ? "ri-folder-open-fill" : "ri-folder-fill"
-            }`}
-          ></i>
-        </span>
-        <div className="flex items-center justify-between w-full source-header group">
+        <img
+          className="w-4"
+          src={unFold ? arrowDown : arrowRight}
+          alt="arrow"
+        />
+        <img className="w-4" src={unFold ? folderOpen : folder} alt="folder" />
+        <div className="flex items-center justify-between w-full ml-1 source-header group">
           {/* @ts-ignore */}
           <span>{file.name}</span>
-          <span>
-            <i
+          <span className="flex items-center">
+            <img
               onClick={() => onClickNew("File")}
-              className="invisible mr-1 ri-add-line group-hover:visible hover:bg-gray-500"
-              title="New File"
-            ></i>
-            <i
+              className="invisible w-4 mr-1 group-hover:visible hover:bg-gray-500"
+              src={fileCreate}
+              alt="New File"
+            />
+            <img
               onClick={() => onClickNew("Folder")}
-              className="invisible ri-folder-add-line group-hover:visible hover:bg-gray-500"
-              title="New Folder"
-            ></i>
+              className="invisible w-4 group-hover:visible hover:bg-gray-500"
+              src={folderCreate}
+              alt="New Folder"
+            />
           </span>
         </div>
       </div>
       {newFile ? (
         <div id="new-input" className="mx-4 flex items-center gap-0.5 p-2">
-          <i className="text-gray-300 ri-file-edit-line"></i>
+          <img className="w-4 text-gray-300 " src={edit} alt="New File" />
           <input
             type="text"
             value={filename}
@@ -159,7 +164,7 @@ const NavFolderItem = ({ file, active }: Props) => {
       ) : null}
       {newFolder ? (
         <div id="new-input" className="mx-4 flex items-center gap-0.5 p-2">
-          <i className="text-gray-300 ri-folder-add-line"></i>
+          <img className="w-4 text-gray-300 " src={edit} alt="New Folder" />
           <input
             type="text"
             value={filename}

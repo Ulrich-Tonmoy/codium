@@ -4,6 +4,7 @@ import { deleteFileObject } from "../stores/file";
 import { ask } from "@tauri-apps/api/dialog";
 import { IFile } from "../types";
 import { setContextMenu, setFiles } from "../redux/sourceSlice";
+import { edit, fileCreate, folderCreate, trash } from "../assets";
 
 const ContextMenu = () => {
   const dispatch = useDispatch();
@@ -57,23 +58,34 @@ const ContextMenu = () => {
     >
       {contextMenu.kind === "directory" && (
         <>
-          <div className="p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700">
-            <i className="inline-block mr-1 ri-file-add-line"></i> New File
+          <div className="flex content-center p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700">
+            <img
+              className="inline-block w-4 mr-2"
+              src={fileCreate}
+              alt="New File"
+            />
+            New File
           </div>
-          <div className="p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700">
-            <i className="inline-block mr-1 ri-folder-add-line"></i> New Folder
+          <div className="flex content-center p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700">
+            <img
+              className="inline-block w-4 mr-2"
+              src={folderCreate}
+              alt="New Folder"
+            />
+            New Folder
           </div>
           <hr className="my-0.5 border border-gray-700" />
         </>
       )}
-      <div className="p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700">
-        <i className="inline-block mr-1 ri-edit-box-line"></i> Rename
+      <div className="flex content-center p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700">
+        <img className="inline-block w-4 mr-2" src={edit} alt="Rename" /> Rename
       </div>
       <div
-        className="p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700"
+        className="flex content-center p-1 text-sm text-gray-300 cursor-pointer hover:bg-gray-700"
         onClick={onDelete}
       >
-        <i className="inline-block mr-1 ri-delete-bin-7-line"></i> Delete
+        <img className="inline-block w-4 mr-2" src={trash} alt="Delete" />
+        Delete
       </div>
     </div>
   );

@@ -4,6 +4,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { readDirectory } from "../helpers/fileSys";
 import { open } from "@tauri-apps/api/dialog";
 import { setFiles, updateProjectName } from "../redux/sourceSlice";
+import {
+  close,
+  file,
+  maximize,
+  minimize,
+  restoreDown,
+  search,
+  setting,
+  sourceControl,
+  terminal,
+} from "../assets";
 
 const TitleBar = () => {
   const dispatch = useDispatch();
@@ -43,34 +54,46 @@ const TitleBar = () => {
           className="w-5 mr-2 cursor-default"
           title="Codium"
         />
-        <i
-          className="text-green-500 cursor-pointer ri-file-3-line"
+        <img
+          src={file}
+          alt="Explorer"
+          className="w-4 cursor-pointer"
           title="Explorer"
-        ></i>
-        <i
-          className="text-green-500 cursor-pointer ri-search-line"
+        />
+        <img
+          src={search}
+          alt="Search"
+          className="w-4 cursor-pointer"
           title="Search"
-        ></i>
-        <i
-          className="text-green-500 cursor-pointer ri-terminal-box-fill"
+        />
+        <img
+          src={terminal}
+          alt="Terminal"
+          className="w-4 cursor-pointer"
           title="Terminal"
-        ></i>
-        <i
-          className="text-green-500 cursor-pointer ri-git-branch-line"
+        />
+        <img
+          src={sourceControl}
+          alt="Source Control"
+          className="w-4 cursor-pointer"
           title="Source Control"
-        ></i>
-        <i
-          className="text-green-500 cursor-pointer ri-settings-5-line"
+        />
+        <img
+          src={setting}
+          alt="Settings"
+          className="w-4 cursor-pointer"
           title="Settings"
-        ></i>
+        />
       </div>
       <div className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none sm:text-sm bg-primary">
         {projectName ? (
           <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
-            <i
-              className="mr-2 text-base text-green-500 cursor-pointer ri-search-2-line"
+            <img
+              src={search}
+              alt="search"
+              className="w-6 mr-2 cursor-pointer"
               onClick={loadFile}
-            ></i>
+            />
             {projectName.split("\\")[projectName.split("\\").length - 1]} -
             Codium
           </span>
@@ -79,26 +102,44 @@ const TitleBar = () => {
             className="flex items-center text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap"
             onClick={loadFile}
           >
-            <i className="mr-2 text-base text-green-500 ri-search-2-line"></i>
+            <img src={search} alt="search" className="w-6 mr-2 " />
             Open Project - Codium
           </span>
         )}
       </div>
       <div className="titlebar-actions">
-        <i className="titlebar-icon ri-subtract-line" onClick={onMinimize}></i>
+        <img
+          className="titlebar-icon"
+          src={minimize}
+          alt="Minimize"
+          title="Minimize"
+          onClick={onMinimize}
+        />
         {isScaleUp ? (
-          <i
-            className="titlebar-icon ri-file-copy-line"
+          <img
+            className="titlebar-icon"
+            src={restoreDown}
+            alt="Restore Down"
+            title="Restore Down"
             onClick={onScaleDown}
-          ></i>
+          />
         ) : (
-          <i className="titlebar-icon ri-stop-line" onClick={onScaleUp}></i>
+          <img
+            className="titlebar-icon"
+            src={maximize}
+            alt="Maximize"
+            title="Maximize"
+            onClick={onScaleUp}
+          />
         )}
-        <i
+        <img
           id="ttb-close"
-          className="titlebar-icon ri-close-fill"
+          className="titlebar-icon"
+          src={close}
+          alt="Close"
+          title="Close"
           onClick={onClose}
-        ></i>
+        />
       </div>
     </div>
   );

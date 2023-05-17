@@ -45,6 +45,8 @@ html {
 .titlebar-icon {
   @apply py-0.5 cursor-pointer;
   width: 30px;
+  height: 28px;
+  padding: 4px 6px;
   text-align: center;
   cursor: pointer;
 }

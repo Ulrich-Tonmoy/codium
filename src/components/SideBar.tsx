@@ -1,6 +1,7 @@
 import NavFiles from "./NavFiles";
 import { useSelector } from "react-redux";
 import ContextMenu from "./ContextMenu";
+import { moreMenu } from "../assets";
 
 const SideBar = () => {
   const { files } = useSelector((state: RootState) => state.source);
@@ -10,7 +11,12 @@ const SideBar = () => {
       <div className="sidebar-header flex items-center justify-between p-2.5">
         <span className="cursor-default project-explorer">Explorer</span>
         <span className="text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap">
-          <i className="ri-more-fill"></i>
+          <img
+            className="w-4"
+            src={moreMenu}
+            alt="More Actions"
+            title="More Actions"
+          />
         </span>
       </div>
       <div className="code-structure">

@@ -7,6 +7,7 @@ import CodeEditor from "./CodeEditor";
 import { MouseEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { delOpenedFile, setSelected } from "../redux/sourceSlice";
+import { close } from "../assets";
 
 const CodeArea = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const CodeArea = () => {
     dispatch(setSelected(id));
   };
 
-  const close = (e: MouseEvent<HTMLElement, MouseEvent>, id: string) => {
+  const onClose = (e: MouseEvent<HTMLElement, MouseEvent>, id: string) => {
     e.stopPropagation();
     dispatch(delOpenedFile(id));
   };
@@ -42,16 +43,20 @@ const CodeArea = () => {
           return (
             <div
               onClick={() => onSelectItem(file.id)}
-              className={`tab-item shrink-0 px-3 py-1.5 text-gray-500 cursor-pointer hover:text-gray-400 flex items-center gap-2 ${active}`}
+              className={`tab-item shrink-0 px-2 py-0.5 text-gray-500 cursor-pointer hover:text-gray-400 flex items-center gap-2 ${active}`}
               key={file.id}
             >
               <FileIcon name={file.name} size="sm" />
               <span>{file.name}</span>
-              <i
+              <img
+                id="ttb-close"
+                className="w-5 hover:bg-red-400"
+                src={close}
+                alt="Close"
+                title="Close"
                 // @ts-ignore
-                onClick={(e) => close(e, item)}
-                className="px-0.5 rounded-md ri-close-line hover:bg-red-400 hover:text-white"
-              ></i>
+                onClick={(e) => onClose(e, item)}
+              />
             </div>
           );
         })}
