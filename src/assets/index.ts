@@ -15,10 +15,13 @@ import sass from "./icons/sass.svg";
 import tailwind from "./icons/tailwind.svg";
 import js from "./icons/javascript.svg";
 import ts from "./icons/typescript.svg";
+import tsdef from "./icons/typescript-def.svg";
 import react from "./icons/react.svg";
+import next from "./icons/next.svg";
 import razor from "./icons/razor.svg";
 import json from "./icons/json.svg";
 import tsconfig from "./icons/tsconfig.svg";
+import eslint from "./icons/eslint.svg";
 import vite from "./icons/vite.svg";
 import node from "./icons/node.svg";
 
@@ -68,10 +71,13 @@ export {
   tailwind,
   js,
   ts,
+  tsdef,
   react,
+  next,
   razor,
   json,
   tsconfig,
+  eslint,
   vite,
   node,
   sln,

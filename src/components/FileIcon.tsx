@@ -13,6 +13,9 @@ const getExtension = (name: string): string => {
   else if (name.toLowerCase().startsWith("readme")) return "readme";
   else if (name.toLowerCase().startsWith("favicon")) return "favicon";
   else if (name.toLowerCase().startsWith("tsconfig")) return "tsconfig";
+  else if (name.toLowerCase().startsWith(".eslintrc")) return "eslint";
+  else if (name.toLowerCase().startsWith("next")) return "next";
+  else if (name.includes(".d.")) return "tsdef";
   else {
     const lastDotIndex = name.lastIndexOf(".");
     return lastDotIndex !== -1
