@@ -56,7 +56,7 @@ const NavFiles = ({ visible, files }: Props) => {
             key={file.id}
             className={`source-item ${
               isSelected ? "source-item-active" : ""
-            } flex items-center gap-2 px-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
+            } flex items-center ml-6 gap-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
             onContextMenu={(e: MouseEvent) =>
               showContextMenu(e as MouseEvent, file)
             }
