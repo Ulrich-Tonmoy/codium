@@ -32,6 +32,7 @@
 ### 0.0.3:
 
 - [x] Migrated to Redux Toolkit
+- [x] Added More Icons
 
 ToDo:
 
