@@ -29,6 +29,10 @@
 - [x] Context Menu
 - [x] Fixed Image view
 
+### 0.0.3:
+
+- [x] Migrated to Redux Toolkit
+
 ToDo:
 
 - [ ] Add Unsaved File alert
