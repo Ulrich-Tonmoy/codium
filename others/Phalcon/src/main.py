@@ -3,12 +3,29 @@ from tkinter import font, colorchooser, filedialog, messagebox
 from tkinter.ttk import *
 import os
 
+
+def update_status_bar(event):
+    global file
+    if editor.edit_modified():
+        word_len = len(editor.get(0.0, END).split())
+        char_len = len(editor.get(0.0, 'end-1c'))
+        status_bar.config(text=f'Characters: {char_len} Words: {word_len}')
+
+        if file != '':
+            app.title(os.path.basename(file) + "- Phalcon*")
+        else:
+            app.title("Untitled*")
+
+    editor.edit_modified(False)
+
+
 file = ''
 
 
 def new_file():
     global file
     editor.delete(0.0, END)
+    app.title("Untitled*")
     file = ''
 
 
@@ -31,15 +48,23 @@ def save_file():
         save_file_as()
     else:
         data = editor.get(0.0, END)
-        file = open(file, 'w')
-        file.write(data)
+        o_file = open(file, 'w')
+        o_file.write(data)
+        o_file.close()
+        app.title(os.path.basename(file) + "- Phalcon")
+        editor.edit_modified(False)
 
 
 def save_file_as():
+    global file
     new_file = filedialog.asksaveasfile(mode='w', defaultextension='.p', filetypes=(
         ('Phalcon File', 'p'), ('Text File', 'txt'), ('All Files', '*.*')))
     data = editor.get(0.0, END)
     new_file.write(data)
+    new_file.close()
+    file = new_file.name
+    app.title(os.path.basename(new_file.name) + "- Phalcon")
+    editor.edit_modified(False)
 
 
 def exit_editor():
@@ -294,5 +319,7 @@ scrollbar_y.config(command=editor.yview)
 
 status_bar = Label(app, text="Status Bar")
 status_bar.pack(side=BOTTOM)
+
+editor.bind("<<Modified>>", update_status_bar)
 
 app.mainloop()
