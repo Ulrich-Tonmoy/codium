@@ -16,8 +16,6 @@ def update_status_bar(event):
         else:
             app.title("Untitled*")
 
-    editor.edit_modified(False)
-
 
 file = ''
 
