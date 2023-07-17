@@ -16,6 +16,8 @@ def update_status_bar(event):
         else:
             app.title("Untitled*")
 
+    editor.edit_modified(False)
+
 
 file = ''
 
@@ -84,6 +86,86 @@ def delete():
         new_file()
         os.remove(file)
         file = ''
+
+
+def find():
+    def close_find_window():
+        editor.tag_remove('match', 1.0, END)
+        find_window.destroy()
+
+    def find_word():
+        editor.tag_remove('match', 1.0, END)
+        start_pos = '1.0'
+        word = find_field.get()
+        if word:
+            while True:
+                start_pos = editor.search(word, start_pos, stopindex=END)
+                if not start_pos:
+                    break
+                end_pos = f'{start_pos}+{len(word)}c'
+                editor.tag_add('match', start_pos, end_pos)
+                editor.tag_config('match', foreground='red',
+                                  background='yellow')
+                start_pos = end_pos
+
+    def replace_text():
+        word = find_field.get()
+        replace_word = replace_field.get()
+        data = editor.get(1.0, END)
+        new_data = data.replace(word, replace_word)
+        editor.delete(1.0, END)
+        editor.insert(1.0, new_data)
+
+    find_window = Toplevel()
+
+    find_window.title("Find")
+    find_window.iconbitmap("./src/icons/Phalcon.ico")
+    find_window.geometry("350x200+500+200")
+    find_window.resizable(0, 0)
+
+    label_frame = LabelFrame(find_window, text='Find/Replace')
+    label_frame.pack(pady=30)
+
+    find_label = Label(label_frame, text="Find")
+    find_label.grid(row=0, column=0, padx=5, pady=5)
+    find_field = Entry(label_frame)
+    find_field.grid(row=0, column=1, padx=5, pady=5)
+
+    replace_label = Label(label_frame, text="Replace")
+    replace_label.grid(row=1, column=0, padx=5, pady=5)
+    replace_field = Entry(label_frame)
+    replace_field.grid(row=1, column=1, padx=5, pady=5)
+
+    find_button = Button(label_frame, text="Find", command=find_word)
+    find_button.grid(row=2, column=0, padx=5, pady=5)
+    replace_button = Button(label_frame, text="Replace", command=replace_text)
+    replace_button.grid(row=2, column=1, padx=5, pady=5)
+
+    find_window.protocol('WM_DELETE_WINDOW', close_find_window)
+    find_window.mainloop()
+
+
+def statusbar_toggle():
+    if show_statusbar.get() == False:
+        status_bar.pack_forget()
+    else:
+        status_bar.pack()
+
+
+def toolbar_toggle():
+    if show_toolbar.get() == False:
+        toolbar.pack_forget()
+    elif show_toolbar.get() == True:
+        editor.pack_forget()
+        toolbar.pack(fill=X)
+        editor.pack(fill=BOTH, expand=1)
+        if show_statusbar.get() == True:
+            status_bar.pack_forget()
+            status_bar.pack()
+
+
+def change_theme(bg_color, fg_color):
+    editor.config(bg=bg_color, fg=fg_color)
 
 
 font_size = 12
@@ -169,6 +251,7 @@ new_img = PhotoImage(file="./src/icons/new.png")
 open_img = PhotoImage(file="./src/icons/open.png")
 save_img = PhotoImage(file="./src/icons/save.png")
 save_as_img = PhotoImage(file="./src/icons/save_as.png")
+delete_img = PhotoImage(file="./src/icons/del.png")
 exit_img = PhotoImage(file="./src/icons/exit.png")
 
 file_menu.add_command(label="New", accelerator="Ctrl+N",
@@ -180,6 +263,9 @@ file_menu.add_command(label="Save", accelerator="Ctrl+S",
                       image=save_img, compound=LEFT, command=save_file)
 file_menu.add_command(
     label="Save As", accelerator="Ctrl+Shift+S", image=save_as_img, compound=LEFT, command=save_file_as)
+file_menu.add_separator()
+file_menu.add_command(label="Delete", accelerator="Shift+D",
+                      image=delete_img, compound=LEFT, command=delete)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", accelerator="Esc",
                       image=exit_img, compound=LEFT, command=exit_editor)
@@ -193,21 +279,7 @@ redo_img = PhotoImage(file="./src/icons/redo.png")
 cut_img = PhotoImage(file="./src/icons/cut.png")
 copy_img = PhotoImage(file="./src/icons/copy.png")
 paste_img = PhotoImage(file="./src/icons/paste.png")
-delete_img = PhotoImage(file="./src/icons/del.png")
-
-edit_menu.add_command(label="Undo", accelerator="Ctrl+Z",
-                      image=undo_img, compound=LEFT)
-edit_menu.add_command(label="Redo", accelerator="Shift+Z",
-                      image=redo_img, compound=LEFT)
-edit_menu.add_separator()
-edit_menu.add_command(label="Cut", accelerator="Ctrl+X",
-                      image=cut_img, compound=LEFT)
-edit_menu.add_command(label="Copy", accelerator="Shift+C",
-                      image=copy_img, compound=LEFT)
-edit_menu.add_command(label="Paste", accelerator="Ctrl+V",
-                      image=paste_img, compound=LEFT)
-edit_menu.add_command(label="Delete", accelerator="Shift+D",
-                      image=delete_img, compound=LEFT, command=delete)
+clear_img = PhotoImage(file="./src/icons/clear_all.png")
 
 ###### SEARCH MENU ###############
 search_menu = Menu(menubar, tearoff=False)
@@ -216,23 +288,21 @@ menubar.add_cascade(label="Search", menu=search_menu)
 find_img = PhotoImage(file="./src/icons/find.png")
 
 search_menu.add_command(label="Find", accelerator="Ctrl+F",
-                        image=find_img, compound=LEFT)
+                        image=find_img, compound=LEFT, command=find)
 
 ###### VIEW MENU ###############
 view_menu = Menu(menubar, tearoff=False)
 menubar.add_cascade(label="View", menu=view_menu)
 
-wordwrap = BooleanVar()
 show_toolbar = BooleanVar()
+show_toolbar.set(True)
 show_statusbar = BooleanVar()
+show_statusbar.set(True)
 
 view_menu.add_checkbutton(
-    label="Word Wrap", variable=wordwrap, onvalue=True, offvalue=False)
-edit_menu.add_separator()
+    label="Tool Bar", variable=show_toolbar, onvalue=True, offvalue=False, command=toolbar_toggle)
 view_menu.add_checkbutton(
-    label="Tool Bar", variable=show_toolbar, onvalue=True, offvalue=False)
-view_menu.add_checkbutton(
-    label="Status Bar", variable=show_statusbar, onvalue=True, offvalue=False)
+    label="Status Bar", variable=show_statusbar, onvalue=True, offvalue=False, command=statusbar_toggle)
 
 ###### THEME MENU ###############
 theme_menu = Menu(menubar, tearoff=False)
@@ -248,17 +318,17 @@ red_img = PhotoImage(file="./src/icons/red.png")
 monokai_img = PhotoImage(file="./src/icons/monokai.png")
 
 theme_menu.add_radiobutton(label="Light Default",
-                           image=light_img, variable=theme, compound=LEFT)
+                           image=light_img, variable=theme, compound=LEFT, command=lambda: change_theme('white', 'black'))
 theme_menu.add_radiobutton(label="Light Plus",
-                           image=light_plus_img, variable=theme, compound=LEFT)
+                           image=light_plus_img, variable=theme, compound=LEFT, command=lambda: change_theme('white', 'black'))
 theme_menu.add_radiobutton(label="Dark",
-                           image=dark_img, variable=theme, compound=LEFT)
+                           image=dark_img, variable=theme, compound=LEFT, command=lambda: change_theme('black', 'white'))
 theme_menu.add_radiobutton(label="Blue",
-                           image=blue_img, variable=theme, compound=LEFT)
+                           image=blue_img, variable=theme, compound=LEFT, command=lambda: change_theme('blue', 'white'))
 theme_menu.add_radiobutton(label="Red",
-                           image=red_img, variable=theme, compound=LEFT)
+                           image=red_img, variable=theme, compound=LEFT, command=lambda: change_theme('pink', 'blue'))
 theme_menu.add_radiobutton(label="Monokai",
-                           image=monokai_img, variable=theme, compound=LEFT)
+                           image=monokai_img, variable=theme, compound=LEFT, command=lambda: change_theme('orange', 'black'))
 
 
 ###### TOOLBAR MENU ###############
@@ -319,5 +389,22 @@ status_bar = Label(app, text="Status Bar")
 status_bar.pack(side=BOTTOM)
 
 editor.bind("<<Modified>>", update_status_bar)
+
+
+###### EDIT MENU ###############
+edit_menu.add_command(label="Undo", accelerator="Ctrl+Z",
+                      image=undo_img, compound=LEFT)
+edit_menu.add_command(label="Redo", accelerator="Shift+Z",
+                      image=redo_img, compound=LEFT)
+edit_menu.add_separator()
+edit_menu.add_command(label="Cut", accelerator="Ctrl+X",
+                      image=cut_img, compound=LEFT, command=lambda: editor.event_generate('<Control x>'))
+edit_menu.add_command(label="Copy", accelerator="Shift+C",
+                      image=copy_img, compound=LEFT, command=lambda: editor.event_generate('<Control c>'))
+edit_menu.add_command(label="Paste", accelerator="Ctrl+V",
+                      image=paste_img, compound=LEFT, command=lambda: editor.event_generate('<Control v>'))
+edit_menu.add_separator()
+edit_menu.add_command(label="Clear", accelerator="Ctrl+Shift+D",
+                      image=clear_img, compound=LEFT, command=lambda: editor.delete(0.0, END))
 
 app.mainloop()
