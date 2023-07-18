@@ -16,3 +16,4 @@
 
 - `pip freeze > requirements.yml` to update the requirements.yml list with new installed packages.
 - `pyrcc5 ./src/icons/resouces.qrc -o ./src/resources.py` to build the resource file.
+- Run `auto-py-to-exe` to start the gui to build the executable.
