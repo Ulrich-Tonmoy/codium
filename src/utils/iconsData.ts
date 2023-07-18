@@ -11,7 +11,6 @@ import {
   css,
   postcss,
   sass,
-  sass,
   tailwind,
   js,
   ts,
