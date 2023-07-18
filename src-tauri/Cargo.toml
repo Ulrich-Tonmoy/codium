@@ -1,6 +1,6 @@
 [package]
 name = "codium"
-version = "0.0.1"
+version = "0.0.3"
 description = "A Code Editor"
 authors = ["Ulrich Tonmoy"]
 license = ""

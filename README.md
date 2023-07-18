@@ -33,6 +33,7 @@
 
 - [x] Migrated to Redux Toolkit
 - [x] Added More Icons
+- [x] Project Open and ProjectName reverted from TitleBar to Explorer
 
 ToDo:
 
