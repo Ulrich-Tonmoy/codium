@@ -11,7 +11,7 @@ import { close } from "../assets";
 
 const CodeArea = () => {
   const dispatch = useDispatch();
-  const { selected, opened } = useSelector((state: RootState) => state.source);
+  const { selected, opened } = useSelector((state: any) => state.source);
 
   const scrollRef = useHorizontalScroll();
 
@@ -36,7 +36,7 @@ const CodeArea = () => {
         ref={scrollRef}
         className="flex items-center overflow-x-auto border-b divide-x code-tab-items border-stone-800 divide-stone-800"
       >
-        {opened?.map((item) => {
+        {opened?.map((item: any) => {
           const file = getFileObject(item) as IFile;
           const active = selected === item ? "bg-darken text-gray-400" : "";
 
@@ -62,7 +62,7 @@ const CodeArea = () => {
         })}
       </div>
       <div className="code-contents">
-        {opened.map((item, index) => {
+        {opened.map((item: any, index: any) => {
           const file = getFileObject(item) as IFile;
           if (isImage(file.name)) {
             return (

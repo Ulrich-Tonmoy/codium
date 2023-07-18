@@ -8,9 +8,7 @@ import { edit, fileCreate, folderCreate, trash } from "../assets";
 
 const ContextMenu = () => {
   const dispatch = useDispatch();
-  const { files, contextMenu } = useSelector(
-    (state: RootState) => state.source,
-  );
+  const { files, contextMenu } = useSelector((state: any) => state.source);
 
   window.addEventListener("click", () => {
     dispatch(setContextMenu({} as IFile));
@@ -25,7 +23,7 @@ const ContextMenu = () => {
       if (isDeleteConfirm) {
         deleteFile(contextMenu.path).then(() => {
           deleteFileObject(contextMenu.id);
-          const newFiles = files.filter((f) => f.id !== contextMenu.id);
+          const newFiles = files.filter((f: any) => f.id !== contextMenu.id);
           dispatch(setFiles(newFiles));
         });
       }
@@ -37,7 +35,7 @@ const ContextMenu = () => {
       if (isDeleteConfirm) {
         deleteFolder(contextMenu.path).then(() => {
           deleteFileObject(contextMenu.id);
-          const newFiles = files.filter((f) => f.id !== contextMenu.id);
+          const newFiles = files.filter((f: any) => f.id !== contextMenu.id);
           console.log(contextMenu.id);
           console.log(files);
           console.log(newFiles);

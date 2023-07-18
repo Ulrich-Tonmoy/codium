@@ -15,7 +15,7 @@ import {
 
 const TitleBar = () => {
   const dispatch = useDispatch();
-  const { projectName } = useSelector((state: RootState) => state.source);
+  const { projectName } = useSelector((state: any) => state.source);
 
   const [isScaleUp, setIsScaleUp] = useState(false);
 

@@ -8,9 +8,7 @@ import { setFiles, updateProjectName } from "../redux/sourceSlice";
 
 const Explorer = () => {
   const dispatch = useDispatch();
-  const { files, projectName } = useSelector(
-    (state: RootState) => state.source,
-  );
+  const { files, projectName } = useSelector((state: any) => state.source);
 
   const loadFile = async () => {
     const selected = await open({

@@ -16,7 +16,7 @@ interface Props {
 
 const NavFiles = ({ visible, files }: Props) => {
   const dispatch = useDispatch();
-  const { selected } = useSelector((state: RootState) => state.source);
+  const { selected } = useSelector((state: any) => state.source);
 
   const onShow = async (
     e: MouseEvent<HTMLDivElement, MouseEvent>,
