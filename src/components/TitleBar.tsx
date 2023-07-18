@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { useSelector, useDispatch } from "react-redux";
-import { readDirectory } from "../helpers/fileSys";
-import { open } from "@tauri-apps/api/dialog";
-import { setFiles, updateProjectName } from "../redux/sourceSlice";
 import {
   close,
   file,
@@ -33,17 +30,7 @@ const TitleBar = () => {
   };
   const onClose = () => appWindow.close();
 
-  const loadFile = async () => {
-    const selected = await open({
-      directory: true,
-    });
-
-    if (!selected) return;
-    dispatch(updateProjectName(selected as string));
-    readDirectory(selected + "/").then((files) => {
-      dispatch(setFiles(files));
-    });
-  };
+  const onClickSearch = async () => {};
 
   return (
     <div id="titlebar" data-tauri-drag-region>
@@ -85,25 +72,20 @@ const TitleBar = () => {
           title="Settings"
         />
       </div>
-      <div className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none sm:text-sm bg-primary">
+      <div
+        className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none sm:text-sm bg-primary cursor-pointer"
+        onClick={onClickSearch}
+      >
         {projectName ? (
           <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
-            <img
-              src={search}
-              alt="search"
-              className="w-6 mr-2 cursor-pointer"
-              onClick={loadFile}
-            />
+            <img src={search} alt="search" className="w-4 mr-2" />
             {projectName.split("\\")[projectName.split("\\").length - 1]} -
             Codium
           </span>
         ) : (
-          <span
-            className="flex items-center text-xs text-gray-400 cursor-pointer project-name whitespace-nowrap"
-            onClick={loadFile}
-          >
-            <img src={search} alt="search" className="w-6 mr-2 " />
-            Open Project - Codium
+          <span className="flex items-center text-xs text-gray-400 project-name whitespace-nowrap p-0.5">
+            <img src={search} alt="search" className="w-4 mr-2" />
+            Codium
           </span>
         )}
       </div>
