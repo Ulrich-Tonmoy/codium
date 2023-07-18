@@ -1,0 +1,444 @@
+from tkinter import *
+from tkinter import font, colorchooser, filedialog, messagebox
+from tkinter.ttk import *
+import os
+import tempfile
+from datetime import datetime
+
+
+def update_status_bar(event):
+    global file
+    if editor.edit_modified():
+        word_len = len(editor.get(0.0, END).split())
+        char_len = len(editor.get(0.0, 'end-1c'))
+        status_bar.config(text=f'Characters: {char_len} Words: {word_len}')
+
+        if file != '':
+            app.title(os.path.basename(file) + "- Phalcon*")
+        else:
+            app.title("Untitled*")
+
+    editor.edit_modified(False)
+
+
+file = ''
+
+
+def new_file(event=None):
+    global file
+    editor.delete(0.0, END)
+    app.title("Untitled*")
+    file = ''
+
+
+def open_file(event=None):
+    new_file()
+    global file
+    file = filedialog.askopenfilename(initialdir=os.getcwd, title="Select file", filetypes=(
+        ('Phalcon File', 'p'), ('Text File', 'txt'), ('All Files', '*.*')))
+
+    if file != '':
+        data = open(file, 'r')
+        editor.insert(0.0, data.read())
+
+    app.title(os.path.basename(file) + "- Phalcon")
+
+
+def save_file(event=None):
+    global file
+    if file == '':
+        save_file_as()
+    else:
+        data = editor.get(0.0, END)
+        o_file = open(file, 'w')
+        o_file.write(data)
+        o_file.close()
+        app.title(os.path.basename(file) + "- Phalcon")
+        editor.edit_modified(False)
+
+
+def save_file_as(event=None):
+    global file
+    new_file = filedialog.asksaveasfile(mode='w', defaultextension='.p', filetypes=(
+        ('Phalcon File', 'p'), ('Text File', 'txt'), ('All Files', '*.*')))
+    if new_file is None:
+        pass
+    else:
+        data = editor.get(0.0, END)
+        new_file.write(data)
+        new_file.close()
+        file = new_file.name
+        app.title(os.path.basename(new_file.name) + "- Phalcon")
+        editor.edit_modified(False)
+
+
+def print(event=None):
+    file = tempfile.mktemp('.txt')
+    open(file, 'w').write(editor.get(0.0, END))
+    os.startfile(file, 'print')
+
+
+def delete(event=None):
+    global file
+    if file != '':
+        os.remove(file)
+        new_file()
+
+
+def exit_editor(event=None):
+    if editor.edit_modified():
+        res = messagebox.askyesnocancel(
+            'Warning', 'Do you want to save the changes?')
+        if res is True:
+            save_file()
+            app.destroy()
+        if res is False:
+            app.destroy()
+    else:
+        app.destroy()
+
+
+def find(event=None):
+    def close_find_window():
+        editor.tag_remove('match', 1.0, END)
+        find_window.destroy()
+
+    def find_word():
+        editor.tag_remove('match', 1.0, END)
+        start_pos = '1.0'
+        word = find_field.get()
+        if word:
+            while True:
+                start_pos = editor.search(word, start_pos, stopindex=END)
+                if not start_pos:
+                    break
+                end_pos = f'{start_pos}+{len(word)}c'
+                editor.tag_add('match', start_pos, end_pos)
+                editor.tag_config('match', foreground='red',
+                                  background='yellow')
+                start_pos = end_pos
+
+    def replace_text():
+        word = find_field.get()
+        replace_word = replace_field.get()
+        data = editor.get(1.0, END)
+        new_data = data.replace(word, replace_word)
+        editor.delete(1.0, END)
+        editor.insert(1.0, new_data)
+
+    find_window = Toplevel()
+
+    find_window.title("Find")
+    find_window.iconbitmap("./src/icons/Phalcon.ico")
+    find_window.geometry("350x200+500+200")
+    find_window.resizable(0, 0)
+
+    label_frame = LabelFrame(find_window, text='Find/Replace')
+    label_frame.pack(pady=30)
+
+    find_label = Label(label_frame, text="Find")
+    find_label.grid(row=0, column=0, padx=5, pady=5)
+    find_field = Entry(label_frame)
+    find_field.grid(row=0, column=1, padx=5, pady=5)
+
+    replace_label = Label(label_frame, text="Replace")
+    replace_label.grid(row=1, column=0, padx=5, pady=5)
+    replace_field = Entry(label_frame)
+    replace_field.grid(row=1, column=1, padx=5, pady=5)
+
+    find_button = Button(label_frame, text="Find", command=find_word)
+    find_button.grid(row=2, column=0, padx=5, pady=5)
+    replace_button = Button(label_frame, text="Replace", command=replace_text)
+    replace_button.grid(row=2, column=1, padx=5, pady=5)
+
+    find_window.protocol('WM_DELETE_WINDOW', close_find_window)
+    find_window.mainloop()
+
+
+def date_time(event=None):
+    date = datetime.now().strftime('%B %d, %y %H:%M:%S')
+    editor.insert(1.0, date)
+
+
+def select_all():
+    editor.tag_add('sel', '1.0', END)
+
+
+def statusbar_toggle():
+    if show_statusbar.get() == False:
+        status_bar.pack_forget()
+    else:
+        status_bar.pack()
+
+
+def toolbar_toggle():
+    if show_toolbar.get() == False:
+        toolbar.pack_forget()
+    elif show_toolbar.get() == True:
+        editor.pack_forget()
+        toolbar.pack(fill=X)
+        editor.pack(fill=BOTH, expand=1)
+        if show_statusbar.get() == True:
+            status_bar.pack_forget()
+            status_bar.pack()
+
+
+def change_theme(bg_color, fg_color):
+    editor.config(bg=bg_color, fg=fg_color)
+
+
+font_size = 12
+font_family = 'arial'
+
+
+def set_font_family(event):
+    global font_family
+    font_family = selected_font.get()
+    editor.config(font=(font_family, font_size))
+
+
+def set_font_size(event):
+    global font_size
+    font_size = selected_font_size.get()
+    editor.config(font=(font_family, font_size))
+
+
+def bold_text():
+    text_property = font.Font(font=editor['font']).actual()
+    if text_property['weight'] == 'bold':
+        editor.config(font=(font_family, font_size, 'normal'))
+    else:
+        editor.config(font=(font_family, font_size, 'bold'))
+
+
+def italic_text():
+    text_property = font.Font(font=editor['font']).actual()
+    if text_property['slant'] == 'roman':
+        editor.config(font=(font_family, font_size, 'italic'))
+    else:
+        editor.config(font=(font_family, font_size, 'roman'))
+
+
+def underline_text():
+    text_property = font.Font(font=editor['font']).actual()
+    if text_property['underline'] == 0:
+        editor.config(font=(font_family, font_size, 'underline'))
+    else:
+        editor.config(font=(font_family, font_size))
+
+
+def color_text():
+    color = colorchooser.askcolor()
+    editor.config(fg=(color[1]))
+
+
+def align_left():
+    data = editor.get(0.0, END)
+    editor.tag_config('left', justify=LEFT)
+    editor.delete(0.0, END)
+    editor.insert(INSERT, data, 'left')
+
+
+def align_center():
+    data = editor.get(0.0, END)
+    editor.tag_config('center', justify=CENTER)
+    editor.delete(0.0, END)
+    editor.insert(INSERT, data, 'center')
+
+
+def align_right():
+    data = editor.get(0.0, END)
+    editor.tag_config('right', justify=RIGHT)
+    editor.delete(0.0, END)
+    editor.insert(INSERT, data, 'right')
+
+
+app = Tk()
+app.title("Phalcon")
+app.iconbitmap("./src/icons/Phalcon.ico")
+app.geometry("1080x720+250+30")
+
+
+menubar = Menu(app)
+app.config(menu=menubar)
+
+###### FILE MENU ###############
+file_menu = Menu(menubar, tearoff=False)
+menubar.add_cascade(label="File", menu=file_menu)
+
+new_img = PhotoImage(file="./src/icons/new.png")
+open_img = PhotoImage(file="./src/icons/open.png")
+save_img = PhotoImage(file="./src/icons/save.png")
+save_as_img = PhotoImage(file="./src/icons/save_as.png")
+print_img = PhotoImage(file="./src/icons/print.png")
+delete_img = PhotoImage(file="./src/icons/del.png")
+exit_img = PhotoImage(file="./src/icons/exit.png")
+
+file_menu.add_command(label="New", accelerator="Ctrl+N",
+                      image=new_img, compound=LEFT, command=new_file)
+file_menu.add_command(label="Open", accelerator="Ctrl+O",
+                      image=open_img, compound=LEFT, command=open_file)
+file_menu.add_separator()
+file_menu.add_command(label="Save", accelerator="Ctrl+S",
+                      image=save_img, compound=LEFT, command=save_file)
+file_menu.add_command(
+    label="Save As", accelerator="Ctrl+Alt+S", image=save_as_img, compound=LEFT, command=save_file_as)
+file_menu.add_separator()
+file_menu.add_command(label="Print", accelerator="Ctrl+P",
+                      image=print_img, compound=LEFT, command=print)
+file_menu.add_command(label="Delete", accelerator="Ctrl+D",
+                      image=delete_img, compound=LEFT, command=delete)
+file_menu.add_separator()
+file_menu.add_command(label="Exit", accelerator="Esc",
+                      image=exit_img, compound=LEFT, command=exit_editor)
+
+###### EDIT MENU ###############
+edit_menu = Menu(menubar, tearoff=False)
+menubar.add_cascade(label="Edit", menu=edit_menu)
+
+undo_img = PhotoImage(file="./src/icons/undo.png")
+redo_img = PhotoImage(file="./src/icons/redo.png")
+cut_img = PhotoImage(file="./src/icons/cut.png")
+copy_img = PhotoImage(file="./src/icons/copy.png")
+paste_img = PhotoImage(file="./src/icons/paste.png")
+find_img = PhotoImage(file="./src/icons/find.png")
+calender_img = PhotoImage(file="./src/icons/calender.png")
+select_img = PhotoImage(file="./src/icons/select_all.png")
+clear_img = PhotoImage(file="./src/icons/clear_all.png")
+
+###### VIEW MENU ###############
+view_menu = Menu(menubar, tearoff=False)
+menubar.add_cascade(label="View", menu=view_menu)
+
+show_toolbar = BooleanVar()
+show_toolbar.set(True)
+show_statusbar = BooleanVar()
+show_statusbar.set(True)
+
+view_menu.add_checkbutton(
+    label="Tool Bar", variable=show_toolbar, onvalue=True, offvalue=False, command=toolbar_toggle)
+view_menu.add_checkbutton(
+    label="Status Bar", variable=show_statusbar, onvalue=True, offvalue=False, command=statusbar_toggle)
+
+###### THEME MENU ###############
+theme_menu = Menu(menubar, tearoff=False)
+menubar.add_cascade(label="Themes", menu=theme_menu)
+
+theme = StringVar()
+
+light_img = PhotoImage(file="./src/icons/light_default.png")
+light_plus_img = PhotoImage(file="./src/icons/light_plus.png")
+dark_img = PhotoImage(file="./src/icons/dark.png")
+blue_img = PhotoImage(file="./src/icons/blue.png")
+red_img = PhotoImage(file="./src/icons/red.png")
+monokai_img = PhotoImage(file="./src/icons/monokai.png")
+
+theme_menu.add_radiobutton(label="Light Default",
+                           image=light_img, variable=theme, compound=LEFT, command=lambda: change_theme('white', 'black'))
+theme_menu.add_radiobutton(label="Light Plus",
+                           image=light_plus_img, variable=theme, compound=LEFT, command=lambda: change_theme('white', 'black'))
+theme_menu.add_radiobutton(label="Dark",
+                           image=dark_img, variable=theme, compound=LEFT, command=lambda: change_theme('black', 'white'))
+theme_menu.add_radiobutton(label="Blue",
+                           image=blue_img, variable=theme, compound=LEFT, command=lambda: change_theme('blue', 'white'))
+theme_menu.add_radiobutton(label="Red",
+                           image=red_img, variable=theme, compound=LEFT, command=lambda: change_theme('pink', 'blue'))
+theme_menu.add_radiobutton(label="Monokai",
+                           image=monokai_img, variable=theme, compound=LEFT, command=lambda: change_theme('orange', 'black'))
+
+
+###### TOOLBAR MENU ###############
+toolbar = Label(app)
+toolbar.pack(side=TOP, fill=X)
+
+font_lits = sorted(font.families())
+selected_font = StringVar()
+font_family_combobox = Combobox(
+    toolbar, width=30, values=font_lits, state='readonly', textvariable=selected_font)
+font_family_combobox.current(font_lits.index('Arial'))
+font_family_combobox.grid(row=0, column=0, padx=5)
+
+selected_font_size = IntVar()
+font_size_combobox = Combobox(
+    toolbar, width=5, textvariable=selected_font_size, values=tuple(range(8, 81)))
+font_size_combobox.current(4)
+font_size_combobox.grid(row=0, column=1)
+
+font_family_combobox.bind('<<ComboboxSelected>>', set_font_family)
+font_size_combobox.bind('<<ComboboxSelected>>', set_font_size)
+
+bold_img = PhotoImage(file="./src/icons/bold.png")
+bold_button = Button(toolbar, image=bold_img, command=bold_text)
+bold_button.grid(row=0, column=2, padx=5)
+
+italic_img = PhotoImage(file="./src/icons/italic.png")
+italic_button = Button(toolbar, image=italic_img, command=italic_text)
+italic_button.grid(row=0, column=3)
+
+underline_img = PhotoImage(file="./src/icons/underline.png")
+underline_button = Button(toolbar, image=underline_img, command=underline_text)
+underline_button.grid(row=0, column=4, padx=5)
+
+font_color_img = PhotoImage(file="./src/icons/font_color.png")
+font_color_button = Button(toolbar, image=font_color_img, command=color_text)
+font_color_button.grid(row=0, column=5)
+
+left_img = PhotoImage(file="./src/icons/left.png")
+left_button = Button(toolbar, image=left_img, command=align_left)
+left_button.grid(row=0, column=6, padx=5)
+
+center_img = PhotoImage(file="./src/icons/center.png")
+center_button = Button(toolbar, image=center_img, command=align_center)
+center_button.grid(row=0, column=7)
+
+right_img = PhotoImage(file="./src/icons/right.png")
+right_button = Button(toolbar, image=right_img, command=align_right)
+right_button.grid(row=0, column=8, padx=5)
+
+scrollbar_y = Scrollbar(app)
+scrollbar_y.pack(side=RIGHT, fill=Y)
+editor = Text(app, yscrollcommand=scrollbar_y.set,
+              font=('arial', 12), undo=True)
+editor.pack(fill=BOTH, expand=True)
+scrollbar_y.config(command=editor.yview)
+
+status_bar = Label(app, text="Status Bar")
+status_bar.pack(side=BOTTOM)
+
+editor.bind("<<Modified>>", update_status_bar)
+
+
+###### EDIT MENU ###############
+edit_menu.add_command(label="Undo", accelerator="Ctrl+Z",
+                      image=undo_img, compound=LEFT)
+edit_menu.add_command(label="Redo", accelerator="Ctrl+Y",
+                      image=redo_img, compound=LEFT)
+edit_menu.add_separator()
+edit_menu.add_command(label="Cut", accelerator="Ctrl+X",
+                      image=cut_img, compound=LEFT, command=lambda: editor.event_generate('<Control x>'))
+edit_menu.add_command(label="Copy", accelerator="Shift+C",
+                      image=copy_img, compound=LEFT, command=lambda: editor.event_generate('<Control c>'))
+edit_menu.add_command(label="Paste", accelerator="Ctrl+V",
+                      image=paste_img, compound=LEFT, command=lambda: editor.event_generate('<Control v>'))
+edit_menu.add_separator()
+edit_menu.add_command(label="Find", accelerator="Ctrl+F",
+                      image=find_img, compound=LEFT, command=find)
+edit_menu.add_command(label="Time/Date", accelerator="Ctrl+T",
+                      image=calender_img, compound=LEFT, command=date_time)
+edit_menu.add_separator()
+edit_menu.add_command(label="Select All", accelerator="Ctrl+A",
+                      image=select_img, compound=LEFT, command=select_all)
+edit_menu.add_command(label="Clear", accelerator="Ctrl+Shift+D",
+                      image=clear_img, compound=LEFT, command=lambda: editor.delete(0.0, END))
+
+app.bind("<Control-n>", new_file)
+app.bind("<Control-o>", open_file)
+app.bind("<Control-s>", save_file)
+app.bind("<Control-Alt-s>", save_file_as)
+app.bind("<Control-p>", print)
+app.bind("<Control-d>", delete)
+app.bind("<Escape>", exit_editor)
+app.bind("<Control-f>", find)
+app.bind("<Control-t>", date_time)
+
+app.mainloop()
