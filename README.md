@@ -1,8 +1,7 @@
 <div id="vscodium-logo" align="center">
-    <br />
-    <img src="./app-icons/png/green/nobg_jared18.png" alt="Codium Logo" width="200"/>
+    <img src="./docs/logo.png" alt="Codium Logo" title="Codium" width="200"/>
     <h1>Codium</h1>
-    <h3></h3>
+    <h3>A Text Editor built on Tauri.</h3>
 </div>
 
 <div id="vscodium-logo" align="center">
@@ -10,30 +9,11 @@
     <img src="./docs/core.png" alt="Code flow" width="330"/>
 </div>
 
-### 0.0.1:
+### 0.0.4 (Currently working):
 
-- [x] Reading files and folders that contains in a directory
-- [x] Creating new file
-- [x] Editing file content
-- [x] Multiple tabs
-- [x] Showing folder structure
-- [x] File icons
-
-### 0.0.2:
-
-- [x] Create new folder and toggle folder open close icon
-- [x] Only show the Project Name instead of the whole path
-- [x] Project Open and ProjectName moved from Explorer to TitleBar
-- [x] Create new folder and file autofocus the input field
-- [x] Delete file and folder
-- [x] Context Menu
-- [x] Fixed Image view
-
-### 0.0.3:
-
-- [x] Migrated to Redux Toolkit
-- [x] Added More Icons
-- [x] Project Open and ProjectName reverted from TitleBar to Explorer
+- [ ] Migrate to Zustand from Redux
+- [ ] Migrate to monaco from codemirror
+- [ ] Use shadcn/ui
 
 ToDo:
 
