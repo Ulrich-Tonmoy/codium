@@ -29,19 +29,19 @@ fn write_file(file_path: &str, content: &str) -> String {
 
 #[tauri::command]
 fn delete_file(file_path: &str) -> String {
-    fc::delete_file(file_path);
+    fc::delete_file(file_path).unwrap();
     String::from("OK")
 }
 
 #[tauri::command]
 fn create_folder(folder_path: &str) -> String {
-    fc::create_folder(folder_path);
+    fc::create_folder(folder_path).unwrap();
     String::from("OK")
 }
 
 #[tauri::command]
 fn delete_folder(folder_path: &str) -> String {
-    fc::delete_folder(folder_path);
+    fc::delete_folder(folder_path).unwrap();
     String::from("OK")
 }
 
