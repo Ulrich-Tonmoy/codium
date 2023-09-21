@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { nanoid } from "nanoid";
 import { IFile } from "../types";
-import { saveFileObject } from "../stores/file";
+import { saveFileObject } from "../hooks/use-file-store";
 
 export const readFile = (filePath: string): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -13,10 +13,7 @@ export const readFile = (filePath: string): Promise<string> => {
   });
 };
 
-export const writeFile = (
-  filePath: string,
-  content: string,
-): Promise<string> => {
+export const writeFile = (filePath: string, content: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     invoke("write_file", { filePath, content }).then((message: unknown) => {
       if (message === "OK") {
@@ -30,29 +27,25 @@ export const writeFile = (
 
 export const createFolder = (filePath: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    invoke("create_folder", { folderPath: filePath }).then(
-      (message: unknown) => {
-        if (message === "OK") {
-          resolve(message as string);
-        } else {
-          reject("ERROR");
-        }
-      },
-    );
+    invoke("create_folder", { folderPath: filePath }).then((message: unknown) => {
+      if (message === "OK") {
+        resolve(message as string);
+      } else {
+        reject("ERROR");
+      }
+    });
   });
 };
 
 export const deleteFolder = (filePath: string): Promise<string> => {
   return new Promise((resolve, reject) => {
-    invoke("delete_folder", { folderPath: filePath }).then(
-      (message: unknown) => {
-        if (message === "OK") {
-          resolve(message as string);
-        } else {
-          reject("ERROR");
-        }
-      },
-    );
+    invoke("delete_folder", { folderPath: filePath }).then((message: unknown) => {
+      if (message === "OK") {
+        resolve(message as string);
+      } else {
+        reject("ERROR");
+      }
+    });
   });
 };
 
@@ -69,7 +62,7 @@ export const deleteFile = (filePath: string): Promise<string> => {
 };
 
 export const readDirectory = (folderPath: string): Promise<IFile[]> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     invoke("open_folder", { folderPath }).then((message: unknown) => {
       const msg = message as string;
       const files = JSON.parse(msg.replaceAll("\\", "/").replaceAll("//", "/"));

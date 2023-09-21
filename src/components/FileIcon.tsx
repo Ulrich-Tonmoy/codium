@@ -1,4 +1,4 @@
-import { icons } from "../utils/iconsData";
+import { icons } from "../lib/iconsData";
 
 interface IFileIconProps {
   name: string;
@@ -18,9 +18,7 @@ const getExtension = (name: string): string => {
   else if (name.includes(".d.")) return "tsdef";
   else {
     const lastDotIndex = name.lastIndexOf(".");
-    return lastDotIndex !== -1
-      ? name.slice(lastDotIndex + 1).toLowerCase()
-      : "NONE";
+    return lastDotIndex !== -1 ? name.slice(lastDotIndex + 1).toLowerCase() : "NONE";
   }
 };
 

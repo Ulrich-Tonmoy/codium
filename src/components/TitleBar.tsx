@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
-import { useSelector, useDispatch } from "react-redux";
 import {
   close,
   file,
@@ -12,10 +11,10 @@ import {
   sourceControl,
   terminal,
 } from "../assets";
+import useExplorer from "../lib/hooks/use-explorer-store";
 
 const TitleBar = () => {
-  const dispatch = useDispatch();
-  const { projectName } = useSelector((state: any) => state.source);
+  const { projectName } = useExplorer();
 
   const [isScaleUp, setIsScaleUp] = useState(false);
 
@@ -41,18 +40,8 @@ const TitleBar = () => {
           className="w-5 mr-2 cursor-default"
           title="Codium"
         />
-        <img
-          src={file}
-          alt="Explorer"
-          className="w-4 cursor-pointer"
-          title="Explorer"
-        />
-        <img
-          src={search}
-          alt="Search"
-          className="w-4 cursor-pointer"
-          title="Search"
-        />
+        <img src={file} alt="Explorer" className="w-4 cursor-pointer" title="Explorer" />
+        <img src={search} alt="Search" className="w-4 cursor-pointer" title="Search" />
         <img
           src={terminal}
           alt="Terminal"
@@ -73,14 +62,13 @@ const TitleBar = () => {
         />
       </div>
       <div
-        className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none sm:text-sm bg-primary cursor-pointer"
+        className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none cursor-pointer sm:text-sm bg-primary"
         onClick={onClickSearch}
       >
         {projectName ? (
           <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
             <img src={search} alt="search" className="w-4 mr-2" />
-            {projectName.split("\\")[projectName.split("\\").length - 1]} -
-            Codium
+            {projectName.split("\\")[projectName.split("\\").length - 1]} - Codium
           </span>
         ) : (
           <span className="flex items-center text-xs text-gray-400 project-name whitespace-nowrap p-0.5">

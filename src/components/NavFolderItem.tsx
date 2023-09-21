@@ -1,11 +1,9 @@
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import { createFolder, readDirectory, writeFile } from "../helpers/fileSys";
-import { saveFileObject } from "../stores/file";
-import { IFile } from "../types";
+import { createFolder, readDirectory, writeFile } from "../lib/helpers/fileSys";
+import { saveFileObject } from "../lib/hooks/use-file-store";
+import { IFile } from "../lib/types";
 import NavFiles from "./NavFiles";
-import { useDispatch } from "react-redux";
-import { setContextMenu } from "../redux/sourceSlice";
 import {
   arrowDown,
   arrowRight,
@@ -15,6 +13,7 @@ import {
   folderCreate,
   folderOpen,
 } from "../assets";
+import useExplorer from "../lib/hooks/use-explorer-store";
 
 interface Props {
   file: IFile;
@@ -22,7 +21,7 @@ interface Props {
 }
 
 const NavFolderItem = ({ file, active }: Props) => {
-  const dispatch = useDispatch();
+  const { setContextMenu } = useExplorer();
 
   const [files, setFiles] = useState<IFile[]>([]);
   const [unFold, setUnFold] = useState(false);
@@ -103,7 +102,7 @@ const NavFolderItem = ({ file, active }: Props) => {
     const el = document.getElementById("context-menu") as HTMLDivElement;
     el.style.top = e.pageY + 8 + "px";
     el.style.left = e.pageX + "px";
-    dispatch(setContextMenu(file));
+    setContextMenu(file);
   };
 
   window.addEventListener("click", (event) => {
@@ -124,11 +123,7 @@ const NavFolderItem = ({ file, active }: Props) => {
         onClick={onShow}
         onContextMenu={(e: React.MouseEvent) => showContextMenu(e, file)}
       >
-        <img
-          className="w-4"
-          src={unFold ? arrowDown : arrowRight}
-          alt="arrow"
-        />
+        <img className="w-4" src={unFold ? arrowDown : arrowRight} alt="arrow" />
         <img className="w-4" src={unFold ? folderOpen : folder} alt="folder" />
         <div className="flex items-center justify-between w-full ml-1 source-header group">
           {/* @ts-ignore */}
