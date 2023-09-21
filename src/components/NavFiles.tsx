@@ -1,13 +1,8 @@
 import { MouseEvent } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { IFile } from "./../types/index";
+import { IFile } from "../lib/types";
 import FileIcon from "./FileIcon";
 import NavFolderItem from "./NavFolderItem";
-import {
-  addOpenedFile,
-  setContextMenu,
-  setSelected,
-} from "../redux/sourceSlice";
+import useExplorer from "../lib/hooks/use-explorer-store";
 
 interface Props {
   files: IFile[];
@@ -15,18 +10,14 @@ interface Props {
 }
 
 const NavFiles = ({ visible, files }: Props) => {
-  const dispatch = useDispatch();
-  const { selected } = useSelector((state: any) => state.source);
+  const { selected, setSelected, addOpenedFile, setContextMenu } = useExplorer();
 
-  const onShow = async (
-    e: MouseEvent<HTMLDivElement, MouseEvent>,
-    file: IFile,
-  ) => {
+  const onShow = async (e: MouseEvent<HTMLDivElement, MouseEvent>, file: IFile) => {
     e.stopPropagation();
 
     if (file.kind === "file") {
-      dispatch(setSelected(file.id));
-      dispatch(addOpenedFile(file.id));
+      setSelected(file.id);
+      addOpenedFile(file.id);
     }
   };
 
@@ -35,7 +26,7 @@ const NavFiles = ({ visible, files }: Props) => {
     const el = document.getElementById("context-menu") as HTMLDivElement;
     el.style.top = e.pageY + 8 + "px";
     el.style.left = e.pageX + "px";
-    dispatch(setContextMenu(file));
+    setContextMenu(file);
   };
 
   return (
@@ -44,9 +35,7 @@ const NavFiles = ({ visible, files }: Props) => {
         const isSelected = file.id === selected;
 
         if (file.kind === "directory") {
-          return (
-            <NavFolderItem active={isSelected} key={file.id} file={file} />
-          );
+          return <NavFolderItem active={isSelected} key={file.id} file={file} />;
         }
 
         return (
@@ -57,9 +46,7 @@ const NavFiles = ({ visible, files }: Props) => {
             className={`source-item ${
               isSelected ? "source-item-active" : ""
             } flex items-center ml-4 gap-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
-            onContextMenu={(e: MouseEvent) =>
-              showContextMenu(e as MouseEvent, file)
-            }
+            onContextMenu={(e: MouseEvent) => showContextMenu(e as MouseEvent, file)}
           >
             <FileIcon name={file.name} />
             <span>{file.name}</span>

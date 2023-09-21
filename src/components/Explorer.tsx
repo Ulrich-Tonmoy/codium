@@ -1,23 +1,21 @@
 import NavFiles from "./NavFiles";
-import { useSelector, useDispatch } from "react-redux";
 import ContextMenu from "./ContextMenu";
 import { moreMenu } from "../assets";
-import { readDirectory } from "../helpers/fileSys";
+import { readDirectory } from "../lib/helpers/fileSys";
 import { open } from "@tauri-apps/api/dialog";
-import { setFiles, updateProjectName } from "../redux/sourceSlice";
+import useExplorer from "../lib/hooks/use-explorer-store";
 
 const Explorer = () => {
-  const dispatch = useDispatch();
-  const { files, projectName } = useSelector((state: any) => state.source);
+  const { files, setFiles, projectName, updateProjectName } = useExplorer();
 
   const loadFile = async () => {
     const selected = await open({
       directory: true,
     });
     if (!selected) return;
-    dispatch(updateProjectName(selected as string));
+    updateProjectName(selected as string);
     readDirectory(selected + "/").then((files) => {
-      dispatch(setFiles(files));
+      setFiles(files);
     });
   };
 
@@ -37,7 +35,7 @@ const Explorer = () => {
             alt="More Actions"
             title="More Actions"
           />
-          <div className="z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-fit dark:bg-gray-700 dark:divide-gray-600 fixed hidden group-hover:block">
+          <div className="fixed z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-fit dark:bg-gray-700 dark:divide-gray-600 group-hover:block">
             <ul className="py-0.5 text-xs text-gray-700 dark:text-gray-400">
               <li
                 className="block px-3 py-2 hover:rounded-lg dark:hover:bg-green-700 dark:hover:text-white"
@@ -52,7 +50,7 @@ const Explorer = () => {
       {!projectName && (
         <div className="flex flex-col items-center justify-center mt-5">
           <button
-            className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-sm text-sm p-1 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 w-4/5"
+            className="w-4/5 p-1 text-sm font-medium text-white bg-green-700 rounded-sm focus:outline-none hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             onClick={loadFile}
           >
             Open Folder

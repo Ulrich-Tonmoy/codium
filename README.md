@@ -11,7 +11,7 @@
 
 ### 0.0.4 (Currently working):
 
-- [ ] Migrate to Zustand from Redux
+- [x] Migrate to Zustand from Redux
 - [ ] Migrate to monaco from codemirror
 - [ ] Use shadcn/ui
 

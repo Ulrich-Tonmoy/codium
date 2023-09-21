@@ -1,17 +1,15 @@
-import { IFile } from "../types";
-import { getFileObject } from "../stores/file";
+import { IFile } from "../lib/types";
+import { getFileObject } from "../lib/hooks/use-file-store";
 import FileIcon from "./FileIcon";
-import useHorizontalScroll from "../helpers/useHorizontalScroll";
+import useHorizontalScroll from "../lib/helpers/useHorizontalScroll";
 import PreviewImage from "./PreviewImage";
 import CodeEditor from "./CodeEditor";
 import { MouseEvent } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { delOpenedFile, setSelected } from "../redux/sourceSlice";
 import { close } from "../assets";
+import useExplorer from "../lib/hooks/use-explorer-store";
 
 const CodeArea = () => {
-  const dispatch = useDispatch();
-  const { selected, opened } = useSelector((state: any) => state.source);
+  const { selected, setSelected, closeOpenedFile, opened } = useExplorer();
 
   const scrollRef = useHorizontalScroll();
 
@@ -22,12 +20,12 @@ const CodeArea = () => {
   };
 
   const onSelectItem = (id: string) => {
-    dispatch(setSelected(id));
+    setSelected(id);
   };
 
   const onClose = (e: MouseEvent<HTMLElement, MouseEvent>, id: string) => {
     e.stopPropagation();
-    dispatch(delOpenedFile(id));
+    closeOpenedFile(id);
   };
 
   return (
@@ -66,17 +64,11 @@ const CodeArea = () => {
           const file = getFileObject(item) as IFile;
           if (isImage(file.name)) {
             return (
-              <PreviewImage
-                key={index}
-                path={file.path}
-                active={item === selected}
-              />
+              <PreviewImage key={index} path={file.path} active={item === selected} />
             );
           }
 
-          return (
-            <CodeEditor key={index} id={item} active={item === selected} />
-          );
+          return <CodeEditor key={index} id={item} active={item === selected} />;
         })}
       </div>
     </div>
