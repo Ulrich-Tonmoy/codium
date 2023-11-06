@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import { createFolder, readDirectory, writeFile } from "../lib/helpers/fileSys";
-import { saveFileObject } from "../lib/hooks/use-file-store";
-import { IFile } from "../lib/types";
+import { createFolder, readDirectory, writeFile } from "../../lib/helpers/fileSys";
+import { saveFileObject } from "../../lib/hooks/use-file-store";
+import { IFile } from "../../lib/types";
 import NavFiles from "./NavFiles";
 import {
   arrowDown,
@@ -12,8 +12,8 @@ import {
   folder,
   folderCreate,
   folderOpen,
-} from "../assets";
-import useExplorer from "../lib/hooks/use-explorer-store";
+} from "../../assets";
+import useExplorer from "../../lib/hooks/use-explorer-store";
 
 interface Props {
   file: IFile;

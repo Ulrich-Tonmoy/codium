@@ -1,8 +1,8 @@
 import { MouseEvent } from "react";
-import { IFile } from "../lib/types";
+import { IFile } from "../../lib/types";
 import FileIcon from "./FileIcon";
 import NavFolderItem from "./NavFolderItem";
-import useExplorer from "../lib/hooks/use-explorer-store";
+import useExplorer from "../../lib/hooks/use-explorer-store";
 
 interface Props {
   files: IFile[];

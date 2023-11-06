@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef } from "react";
 import { EditorView, basicSetup } from "codemirror";
-import { getFileObject } from "../lib/hooks/use-file-store";
-import { readFile, writeFile } from "../lib/helpers/fileSys";
+import { getFileObject } from "../../lib/hooks/use-file-store";
+import { readFile, writeFile } from "../../lib/helpers/fileSys";
 import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
 import { html } from "@codemirror/lang-html";

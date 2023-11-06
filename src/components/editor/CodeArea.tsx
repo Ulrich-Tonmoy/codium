@@ -1,12 +1,12 @@
-import { IFile } from "../lib/types";
-import { getFileObject } from "../lib/hooks/use-file-store";
-import FileIcon from "./FileIcon";
-import useHorizontalScroll from "../lib/helpers/useHorizontalScroll";
+import { IFile } from "../../lib/types";
+import { getFileObject } from "../../lib/hooks/use-file-store";
+import FileIcon from "../sidebar/FileIcon";
+import useHorizontalScroll from "../../lib/helpers/useHorizontalScroll";
 import PreviewImage from "./PreviewImage";
 import CodeEditor from "./CodeEditor";
 import { MouseEvent } from "react";
-import { close } from "../assets";
-import useExplorer from "../lib/hooks/use-explorer-store";
+import { close } from "../../assets";
+import useExplorer from "../../lib/hooks/use-explorer-store";
 
 const CodeArea = () => {
   const { selected, setSelected, closeOpenedFile, opened } = useExplorer();
