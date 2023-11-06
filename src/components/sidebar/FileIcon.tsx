@@ -1,4 +1,4 @@
-import { icons } from "../lib/iconsData";
+import { icons } from "../../lib/iconsData";
 
 interface IFileIconProps {
   name: string;

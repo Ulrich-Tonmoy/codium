@@ -37,7 +37,6 @@ import pdf from "./icons/pdf.svg";
 import readme from "./icons/readme.svg";
 import md from "./icons/md.svg";
 import edit from "./icons/edit.svg";
-import file from "./icons/file.svg";
 import fileCreate from "./icons/file-create.svg";
 import arrowRight from "./icons/arrow-right.svg";
 import arrowDown from "./icons/arrow-down.svg";
@@ -50,10 +49,8 @@ import maximize from "./icons/maximize.svg";
 import restoreDown from "./icons/restore-down.svg";
 import close from "./icons/close.svg";
 import search from "./icons/search.svg";
-import terminal from "./icons/terminal.svg";
-import sourceControl from "./icons/source-control.svg";
-import setting from "./icons/setting.svg";
 import trash from "./icons/trash.svg";
+import file from "./icons/file.svg";
 
 export {
   c,
@@ -104,8 +101,5 @@ export {
   restoreDown,
   close,
   search,
-  terminal,
-  sourceControl,
-  setting,
   trash,
 };

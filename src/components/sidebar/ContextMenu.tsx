@@ -1,9 +1,9 @@
-import { deleteFile, deleteFolder } from "../lib/helpers/fileSys";
-import { deleteFileObject } from "../lib/hooks/use-file-store";
+import { deleteFile, deleteFolder } from "../../lib/helpers/fileSys";
+import { deleteFileObject } from "../../lib/hooks/use-file-store";
 import { ask } from "@tauri-apps/api/dialog";
-import { IFile } from "../lib/types";
-import { edit, fileCreate, folderCreate, trash } from "../assets";
-import useExplorer from "../lib/hooks/use-explorer-store";
+import { IFile } from "../../lib/types";
+import { edit, fileCreate, folderCreate, trash } from "../../assets";
+import useExplorer from "../../lib/hooks/use-explorer-store";
 
 const ContextMenu = () => {
   const { files, setFiles, contextMenu, setContextMenu } = useExplorer();
