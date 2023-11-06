@@ -4,6 +4,7 @@ import { moreMenu } from "../assets";
 import { readDirectory } from "../lib/helpers/fileSys";
 import { open } from "@tauri-apps/api/dialog";
 import useExplorer from "../lib/hooks/use-explorer-store";
+import { Button } from "./ui/button";
 
 const Explorer = () => {
   const { files, setFiles, projectName, updateProjectName } = useExplorer();
@@ -49,12 +50,9 @@ const Explorer = () => {
       </div>
       {!projectName && (
         <div className="flex flex-col items-center justify-center mt-5">
-          <button
-            className="w-4/5 p-1 text-sm font-medium text-white bg-green-700 rounded-sm focus:outline-none hover:bg-green-800 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            onClick={loadFile}
-          >
+          <Button onClick={loadFile} variant="primary">
             Open Folder
-          </button>
+          </Button>
         </div>
       )}
       <div className="code-structure">
