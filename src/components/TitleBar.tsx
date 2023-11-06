@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
-import { close, maximize, minimize, restoreDown, search } from "../assets";
+import { close, maximize, minimize, restoreDown } from "../assets";
 import useExplorer from "../lib/hooks/use-explorer-store";
 import useSidebar from "@/lib/hooks/use-sidebar-store";
 import { Button } from "./ui/button";
-import { File, FolderSearch2, GitBranch, Settings, Terminal } from "lucide-react";
+import { File, FolderSearch2, GitBranch, Search, Settings, Terminal } from "lucide-react";
 
 const TitleBar = () => {
   const { activeSidebarName, toggleSidebar } = useSidebar();
@@ -81,12 +81,12 @@ const TitleBar = () => {
       >
         {projectName ? (
           <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
-            <img src={search} alt="search" className="w-4 mr-2" />
+            <Search className="w-4 mr-2" />
             {projectName.split("\\")[projectName.split("\\").length - 1]} - Codium
           </span>
         ) : (
           <span className="flex items-center text-xs text-gray-400 project-name whitespace-nowrap p-0.5">
-            <img src={search} alt="search" className="w-4 mr-2" />
+            <Search className="w-4 mr-2" />
             Codium
           </span>
         )}

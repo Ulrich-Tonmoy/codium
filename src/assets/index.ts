@@ -48,7 +48,6 @@ import minimize from "./icons/minimize.svg";
 import maximize from "./icons/maximize.svg";
 import restoreDown from "./icons/restore-down.svg";
 import close from "./icons/close.svg";
-import search from "./icons/search.svg";
 import trash from "./icons/trash.svg";
 import file from "./icons/file.svg";
 
@@ -88,7 +87,6 @@ export {
   readme,
   md,
   edit,
-  file,
   fileCreate,
   arrowRight,
   arrowDown,
@@ -100,6 +98,6 @@ export {
   maximize,
   restoreDown,
   close,
-  search,
   trash,
+  file,
 };
