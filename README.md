@@ -13,12 +13,12 @@
 
 - [x] Migrate to Zustand from Redux
 - [x] Use shadcn/ui
+- [ ] Fix context menu
 - [ ] Migrate to monaco from codemirror
 
 ToDo:
 
 - [ ] Add Unsaved File alert
-- [ ] Fix context menu
 - [ ] Add Terminal
 - [ ] Add Search
 - [ ] Add Git
