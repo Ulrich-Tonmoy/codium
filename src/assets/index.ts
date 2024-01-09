@@ -50,7 +50,7 @@ import restoreDown from "./icons/restore-down.svg";
 import close from "./icons/close.svg";
 import trash from "./icons/trash.svg";
 import file from "./icons/file.svg";
-import binary from "./icons/binary.svg";
+import binary from "./icons/binary.png";
 
 export {
   c,
