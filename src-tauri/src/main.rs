@@ -1,54 +1,47 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod fc;
-
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+mod fs;
 
 #[tauri::command]
 fn open_folder(folder_path: &str) -> String {
-    let files = fc::read_folder(folder_path);
+    let files = fs::read_folder(folder_path);
     files
 }
 
 #[tauri::command]
 fn get_file_content(file_path: &str) -> String {
-    let content = fc::read_file(file_path);
+    let content = fs::read_file(file_path);
     content
 }
 
 #[tauri::command]
 fn write_file(file_path: &str, content: &str) -> String {
-    fc::write_file(file_path, content);
+    fs::write_file(file_path, content);
     String::from("OK")
 }
 
 #[tauri::command]
 fn delete_file(file_path: &str) -> String {
-    fc::delete_file(file_path).unwrap();
+    fs::delete_file(file_path).unwrap();
     String::from("OK")
 }
 
 #[tauri::command]
 fn create_folder(folder_path: &str) -> String {
-    fc::create_folder(folder_path).unwrap();
+    fs::create_folder(folder_path).unwrap();
     String::from("OK")
 }
 
 #[tauri::command]
 fn delete_folder(folder_path: &str) -> String {
-    fc::delete_folder(folder_path).unwrap();
+    fs::delete_folder(folder_path).unwrap();
     String::from("OK")
 }
 
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            greet,
             open_folder,
             get_file_content,
             write_file,
