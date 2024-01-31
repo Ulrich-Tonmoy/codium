@@ -1,12 +1,9 @@
-import NavFiles from "./NavFiles";
-import ContextMenu from "./ContextMenu";
-import { moreMenu } from "../../assets";
-import { readDirectory } from "../../lib/helpers/fileSys";
+import { ContextMenu, Button, NavFiles } from "@/components";
+import { moreMenu } from "@/assets";
+import { readDirectory, useExplorer } from "@/libs";
 import { open } from "@tauri-apps/api/dialog";
-import useExplorer from "../../lib/hooks/use-explorer-store";
-import { Button } from "../ui/button";
 
-const Explorer = () => {
+export const Explorer = () => {
   const { files, setFiles, projectName, updateProjectName } = useExplorer();
 
   const loadFile = async () => {
@@ -61,5 +58,3 @@ const Explorer = () => {
     </aside>
   );
 };
-
-export default Explorer;

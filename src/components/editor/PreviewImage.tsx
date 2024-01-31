@@ -6,7 +6,7 @@ interface Props {
   active: boolean;
 }
 
-const PreviewImage = ({ path, active }: Props) => {
+export const PreviewImage = ({ path, active }: Props) => {
   const imgRef = useRef<HTMLImageElement>(null);
 
   return (
@@ -15,5 +15,3 @@ const PreviewImage = ({ path, active }: Props) => {
     </div>
   );
 };
-
-export default PreviewImage;

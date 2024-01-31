@@ -1,9 +1,6 @@
 import { nanoid } from "nanoid";
 import React, { useState } from "react";
-import { createFolder, readDirectory, writeFile } from "../../lib/helpers/fileSys";
-import { saveFileObject } from "../../lib/hooks/use-file-store";
-import { IFile } from "../../lib/types";
-import NavFiles from "./NavFiles";
+import { NavFiles } from "@/components";
 import {
   arrowDown,
   arrowRight,
@@ -12,15 +9,22 @@ import {
   folder,
   folderCreate,
   folderOpen,
-} from "../../assets";
-import useExplorer from "../../lib/hooks/use-explorer-store";
+} from "@/assets";
+import {
+  useExplorer,
+  IFile,
+  saveFileObject,
+  createFolder,
+  readDirectory,
+  writeFile,
+} from "@/libs";
 
 interface Props {
   file: IFile;
   active: boolean;
 }
 
-const NavFolderItem = ({ file, active }: Props) => {
+export const NavFolderItem = ({ file, active }: Props) => {
   const { setContextMenu } = useExplorer();
 
   const [files, setFiles] = useState<IFile[]>([]);
@@ -174,5 +178,3 @@ const NavFolderItem = ({ file, active }: Props) => {
     </div>
   );
 };
-
-export default NavFolderItem;

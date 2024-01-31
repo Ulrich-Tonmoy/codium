@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-export default function useHorizontalScroll() {
+export function useHorizontalScroll() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
