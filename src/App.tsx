@@ -1,7 +1,4 @@
-import CodeArea from "./components/editor/CodeArea";
-import SideBar from "./components/sidebar/SideBar";
-import TitleBar from "./components/TitleBar";
-
+import { CodeArea, SideBar, TitleBar } from "@/components";
 function App() {
   return (
     <div className="wrapper">
