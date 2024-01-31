@@ -13,7 +13,7 @@ interface ISourceState {
   toggleSidebar: (activeSidebarName: SideBarType) => void;
 }
 
-const useSidebar = create<ISourceState>((set) => ({
+export const useSidebar = create<ISourceState>((set) => ({
   activeSidebarName: "Explorer",
   toggleSidebar: (activeSidebarName: SideBarType) =>
     set((state) => {
@@ -22,5 +22,3 @@ const useSidebar = create<ISourceState>((set) => ({
       else return { ...state, activeSidebarName };
     }),
 }));
-
-export default useSidebar;

@@ -1,15 +1,13 @@
 import { MouseEvent } from "react";
-import { IFile } from "../../lib/types";
-import FileIcon from "./FileIcon";
-import NavFolderItem from "./NavFolderItem";
-import useExplorer from "../../lib/hooks/use-explorer-store";
+import { IFile, useExplorer } from "@/libs";
+import { FileIcon, NavFolderItem } from "@/components";
 
 interface Props {
   files: IFile[];
   visible: boolean;
 }
 
-const NavFiles = ({ visible, files }: Props) => {
+export const NavFiles = ({ visible, files }: Props) => {
   const { selected, setSelected, addOpenedFile, setContextMenu } = useExplorer();
 
   const onShow = async (e: MouseEvent<HTMLDivElement, MouseEvent>, file: IFile) => {
@@ -56,5 +54,3 @@ const NavFiles = ({ visible, files }: Props) => {
     </div>
   );
 };
-
-export default NavFiles;

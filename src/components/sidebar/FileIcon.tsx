@@ -1,4 +1,4 @@
-import { icons } from "../../lib/iconsData";
+import { icons } from "@/libs";
 
 interface IFileIconProps {
   name: string;
@@ -22,7 +22,7 @@ const getExtension = (name: string): string => {
   }
 };
 
-const FileIcon = ({ name, size = "base" }: IFileIconProps) => {
+export const FileIcon = ({ name, size = "base" }: IFileIconProps) => {
   const ext = getExtension(name);
   const cls = size === "base" ? "w-4" : "w-3";
 
@@ -32,5 +32,3 @@ const FileIcon = ({ name, size = "base" }: IFileIconProps) => {
 
   return <img className={cls} src={icons["file"]} alt={name} />;
 };
-
-export default FileIcon;

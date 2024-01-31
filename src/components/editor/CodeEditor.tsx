@@ -1,8 +1,7 @@
 import { nanoid } from "nanoid";
 import { useEffect, useMemo, useRef } from "react";
 import { EditorView, basicSetup } from "codemirror";
-import { getFileObject } from "../../lib/hooks/use-file-store";
-import { readFile, writeFile } from "../../lib/helpers/fileSys";
+import { getFileObject, readFile, writeFile } from "@/libs";
 import { javascript } from "@codemirror/lang-javascript";
 import { markdown } from "@codemirror/lang-markdown";
 import { html } from "@codemirror/lang-html";
@@ -17,7 +16,7 @@ interface Props {
   active: boolean;
 }
 
-const CodeEditor = ({ id, active }: Props) => {
+export const CodeEditor = ({ id, active }: Props) => {
   const isRendered = useRef(0);
   const editorId = useMemo(() => nanoid(), []);
   const visible = active ? "" : "hidden";
@@ -85,5 +84,3 @@ const CodeEditor = ({ id, active }: Props) => {
     </main>
   );
 };
-
-export default CodeEditor;

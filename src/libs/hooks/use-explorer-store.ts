@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IFile } from "../types";
+import { IFile } from "@/libs";
 
 interface ISourceState {
   projectName: string;
@@ -15,7 +15,7 @@ interface ISourceState {
   setContextMenu: (contextMenu: IFile) => void;
 }
 
-const useExplorer = create<ISourceState>((set) => ({
+export const useExplorer = create<ISourceState>((set) => ({
   projectName: "",
   files: [],
   selected: "",
@@ -33,5 +33,3 @@ const useExplorer = create<ISourceState>((set) => ({
     })),
   setContextMenu: (contextMenu: IFile) => set((state) => ({ ...state, contextMenu })),
 }));
-
-export default useExplorer;

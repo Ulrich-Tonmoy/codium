@@ -1,7 +1,7 @@
-import useSidebar from "@/lib/hooks/use-sidebar-store";
-import Explorer from "./Explorer";
+import { useSidebar } from "@/libs";
+import { Explorer } from "@/components";
 
-const SideBar = () => {
+export const SideBar = () => {
   const { activeSidebarName } = useSidebar();
 
   if (activeSidebarName === "Explorer") return <Explorer />;
@@ -12,5 +12,3 @@ const SideBar = () => {
 
   return <></>;
 };
-
-export default SideBar;

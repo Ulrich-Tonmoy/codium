@@ -1,4 +1,4 @@
-import { IFile } from "../types";
+import { IFile } from "@/libs";
 
 interface IEntries {
   [key: string]: IFile;

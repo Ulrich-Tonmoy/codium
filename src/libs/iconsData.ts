@@ -34,7 +34,7 @@ import {
   readme,
   md,
   file,
-} from "../assets";
+} from "@/assets";
 
 interface Icons {
   [key: string]: string;

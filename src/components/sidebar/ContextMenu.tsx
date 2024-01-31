@@ -1,11 +1,8 @@
-import { deleteFile, deleteFolder } from "../../lib/helpers/fileSys";
-import { deleteFileObject } from "../../lib/hooks/use-file-store";
+import { deleteFile, deleteFolder, deleteFileObject, IFile, useExplorer } from "@/libs";
 import { ask } from "@tauri-apps/api/dialog";
-import { IFile } from "../../lib/types";
-import { edit, fileCreate, folderCreate, trash } from "../../assets";
-import useExplorer from "../../lib/hooks/use-explorer-store";
+import { edit, fileCreate, folderCreate, trash } from "@/assets";
 
-const ContextMenu = () => {
+export const ContextMenu = () => {
   const { files, setFiles, contextMenu, setContextMenu } = useExplorer();
 
   window.addEventListener("click", () => {
@@ -76,5 +73,3 @@ const ContextMenu = () => {
     </div>
   );
 };
-
-export default ContextMenu;

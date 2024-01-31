@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
-import { close, maximize, minimize, restoreDown } from "../assets";
-import useExplorer from "../lib/hooks/use-explorer-store";
-import useSidebar from "@/lib/hooks/use-sidebar-store";
-import { Button } from "./ui/button";
+import { close, maximize, minimize, restoreDown } from "@/assets";
+import { useSidebar, useExplorer } from "@/libs";
+import { Button } from "@/components";
 import { File, FolderSearch2, GitBranch, Search, Settings, Terminal } from "lucide-react";
 
-const TitleBar = () => {
+export const TitleBar = () => {
   const { activeSidebarName, toggleSidebar } = useSidebar();
   const { projectName } = useExplorer();
 
@@ -128,5 +127,3 @@ const TitleBar = () => {
     </div>
   );
 };
-
-export default TitleBar;

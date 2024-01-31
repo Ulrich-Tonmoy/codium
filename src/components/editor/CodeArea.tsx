@@ -1,14 +1,9 @@
-import { IFile } from "../../lib/types";
-import { getFileObject } from "../../lib/hooks/use-file-store";
-import FileIcon from "../sidebar/FileIcon";
-import useHorizontalScroll from "../../lib/helpers/useHorizontalScroll";
-import PreviewImage from "./PreviewImage";
-import CodeEditor from "./CodeEditor";
+import { IFile, getFileObject, useHorizontalScroll, useExplorer } from "@/libs";
+import { FileIcon, PreviewImage, CodeEditor } from "@/components";
 import { MouseEvent } from "react";
-import { close } from "../../assets";
-import useExplorer from "../../lib/hooks/use-explorer-store";
+import { close } from "@/assets";
 
-const CodeArea = () => {
+export const CodeArea = () => {
   const { selected, setSelected, closeOpenedFile, opened } = useExplorer();
 
   const scrollRef = useHorizontalScroll();
@@ -74,5 +69,3 @@ const CodeArea = () => {
     </div>
   );
 };
-
-export default CodeArea;

@@ -1,7 +1,6 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { nanoid } from "nanoid";
-import { IFile } from "../types";
-import { saveFileObject } from "../hooks/use-file-store";
+import { IFile, saveFileObject } from "@/libs";
 
 export const readFile = (filePath: string): Promise<string> => {
   return new Promise((resolve, reject) => {
