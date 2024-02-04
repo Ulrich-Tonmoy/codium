@@ -13,15 +13,9 @@
 
 - [x] Migrate to Zustand from Redux
 - [x] Use shadcn/ui
-- [ ] Fix context menu
+- [x] Removed context menu
 - [ ] Migrate to monaco from codemirror
-
-ToDo:
-
 - [ ] Add Unsaved File alert
-- [ ] Add Terminal
-- [ ] Add Search
-- [ ] Add Git
 
 ## Recommended Setup To Work in Windows
 

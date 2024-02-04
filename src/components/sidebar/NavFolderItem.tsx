@@ -10,14 +10,7 @@ import {
   folderCreate,
   folderOpen,
 } from "@/assets";
-import {
-  useExplorer,
-  IFile,
-  saveFileObject,
-  createFolder,
-  readDirectory,
-  writeFile,
-} from "@/libs";
+import { IFile, saveFileObject, createFolder, readDirectory, writeFile } from "@/libs";
 
 interface Props {
   file: IFile;
@@ -25,8 +18,6 @@ interface Props {
 }
 
 export const NavFolderItem = ({ file, active }: Props) => {
-  const { setContextMenu } = useExplorer();
-
   const [files, setFiles] = useState<IFile[]>([]);
   const [unFold, setUnFold] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -101,14 +92,6 @@ export const NavFolderItem = ({ file, active }: Props) => {
     }
   };
 
-  const showContextMenu = (e: React.MouseEvent, file: IFile) => {
-    e.preventDefault();
-    const el = document.getElementById("context-menu") as HTMLDivElement;
-    el.style.top = e.pageY + 8 + "px";
-    el.style.left = e.pageX + "px";
-    setContextMenu(file);
-  };
-
   window.addEventListener("click", (event) => {
     const el = document.getElementById("new-input");
     if (el)
@@ -125,7 +108,6 @@ export const NavFolderItem = ({ file, active }: Props) => {
           active ? "bg-gray-200" : ""
         } flex items-center py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
         onClick={onShow}
-        onContextMenu={(e: React.MouseEvent) => showContextMenu(e, file)}
       >
         <img className="w-4" src={unFold ? arrowDown : arrowRight} alt="arrow" />
         <img className="w-4" src={unFold ? folderOpen : folder} alt="folder" />

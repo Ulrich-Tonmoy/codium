@@ -76,11 +76,9 @@
 }
 
 html {
-  @apply w-screen h-screen bg-primary;
+  @apply w-screen h-screen bg-primary select-none;
 }
-.bg-darken {
-  background-color: #222426;
-}
+
 .source-item .source-codes {
   @apply relative pl-2;
 }
@@ -96,41 +94,14 @@ html {
   @apply text-gray-200;
   @apply px-2 py-0.5;
 }
-#titlebar {
-  @apply flex items-center justify-between pl-2 text-gray-300;
-  background: #1c1c1c;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-.titlebar-actions {
-  @apply flex items-center;
-}
-.titlebar-icon {
-  @apply py-0.5 cursor-pointer;
-  width: 30px;
-  height: 28px;
-  padding: 4px 6px;
-  text-align: center;
-  cursor: pointer;
-}
-.titlebar-icon:hover {
-  background-color: #383838;
-}
-#ttb-close:hover {
-  @apply text-gray-100 bg-red-500;
-}
 #editor {
   padding-top: 27px;
-}
-.project-explorer {
-  @apply w-full text-xs text-left text-gray-400 capitalize;
 }
 .code-structure {
   @apply px-2 overflow-y-auto;
   height: calc(100vh - 70px);
 }
+
 /* Styles for scrollbar */
 ::-webkit-scrollbar {
   width: 7px;

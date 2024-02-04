@@ -1,4 +1,3 @@
-export * from "./ContextMenu";
 export * from "./Explorer";
 export * from "./FileIcon";
 export * from "./NavFiles";
