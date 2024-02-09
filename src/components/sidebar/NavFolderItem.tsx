@@ -145,7 +145,7 @@ export const NavFolderItem = ({ file, active }: Props) => {
       ) : null}
       {newFolder ? (
         <div id="new-input" className="mx-4 flex items-center gap-0.5 p-2">
-          <img className="w-4 text-gray-300 " src={edit} alt="New Folder" />
+          <img className="w-4" src={folder} alt="folder" />
           <input
             type="text"
             value={filename}
