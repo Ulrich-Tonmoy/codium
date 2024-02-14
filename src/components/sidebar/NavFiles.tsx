@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const NavFiles = ({ visible, files }: Props) => {
-  const { selected, setSelected, addOpenedFile, setContextMenu } = useExplorer();
+  const { selected, setSelected, addOpenedFile } = useExplorer();
 
   const onShow = async (e: MouseEvent<HTMLDivElement, MouseEvent>, file: IFile) => {
     e.stopPropagation();
@@ -17,14 +17,6 @@ export const NavFiles = ({ visible, files }: Props) => {
       setSelected(file.id);
       addOpenedFile(file.id);
     }
-  };
-
-  const showContextMenu = (e: React.MouseEvent, file: IFile) => {
-    e.preventDefault();
-    const el = document.getElementById("context-menu") as HTMLDivElement;
-    el.style.top = e.pageY + 8 + "px";
-    el.style.left = e.pageX + "px";
-    setContextMenu(file);
   };
 
   return (
@@ -44,7 +36,6 @@ export const NavFiles = ({ visible, files }: Props) => {
             className={`source-item ${
               isSelected ? "source-item-active" : ""
             } flex items-center ml-4 gap-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}
-            onContextMenu={(e: MouseEvent) => showContextMenu(e as MouseEvent, file)}
           >
             <FileIcon name={file.name} />
             <span>{file.name}</span>

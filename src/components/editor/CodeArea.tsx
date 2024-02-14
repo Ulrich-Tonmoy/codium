@@ -31,7 +31,7 @@ export const CodeArea = () => {
       >
         {opened?.map((item: any) => {
           const file = getFileObject(item) as IFile;
-          const active = selected === item ? "bg-darken text-gray-400" : "";
+          const active = selected === item ? "bg-[#222426] text-gray-400" : "";
 
           return (
             <div

@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { close, maximize, minimize, restoreDown } from "@/assets";
-import { useSidebar, useExplorer } from "@/libs";
-import { Button } from "@/components";
-import { File, FolderSearch2, GitBranch, Search, Settings, Terminal } from "lucide-react";
+import { useExplorer } from "@/libs";
 
 export const TitleBar = () => {
-  const { activeSidebarName, toggleSidebar } = useSidebar();
   const { projectName } = useExplorer();
 
   const [isScaleUp, setIsScaleUp] = useState(false);
@@ -22,10 +19,11 @@ export const TitleBar = () => {
   };
   const onClose = () => appWindow.close();
 
-  const onClickSearch = async () => {};
-
   return (
-    <div id="titlebar" data-tauri-drag-region>
+    <div
+      className="fixed top-0 left-0 right-0 flex items-center justify-between pl-2 text-text bg-[#1c1c1c]"
+      data-tauri-drag-region
+    >
       <div className="flex items-center gap-1">
         <img
           src="/logo.png"
@@ -33,66 +31,18 @@ export const TitleBar = () => {
           className="w-5 mr-2 cursor-default"
           title="Codium"
         />
-        <Button
-          variant={activeSidebarName === "Explorer" ? "primary" : "ghost"}
-          size="titleIcon"
-          title="Explorer"
-          onClick={() => toggleSidebar("Explorer")}
-        >
-          <File className="w-4 h-4" />
-        </Button>
-        <Button
-          variant={activeSidebarName === "Search" ? "primary" : "ghost"}
-          size="titleIcon"
-          title="Search"
-          onClick={() => toggleSidebar("Search")}
-        >
-          <FolderSearch2 className="w-4 h-4" />
-        </Button>
-        <Button
-          variant={activeSidebarName === "Terminal" ? "primary" : "ghost"}
-          size="titleIcon"
-          title="Terminal"
-          onClick={() => toggleSidebar("Terminal")}
-        >
-          <Terminal className="w-4 h-4" />
-        </Button>
-        <Button
-          variant={activeSidebarName === "Git" ? "primary" : "ghost"}
-          size="titleIcon"
-          title="Git"
-          onClick={() => toggleSidebar("Git")}
-        >
-          <GitBranch className="w-4 h-4" />
-        </Button>
-        <Button
-          variant={activeSidebarName === "Settings" ? "primary" : "ghost"}
-          size="titleIcon"
-          title="Settings"
-          onClick={() => toggleSidebar("Settings")}
-        >
-          <Settings className="w-4 h-4" />
-        </Button>
       </div>
       <div
-        className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none cursor-pointer sm:text-sm bg-primary"
-        onClick={onClickSearch}
+        className="flex items-center justify-center w-1/3 px-2 text-gray-200 rounded-md shadow-sm outline-none cursor-default sm:text-sm"
+        data-tauri-drag-region
       >
-        {projectName ? (
-          <span className="flex items-center text-xs text-gray-400 capitalize project-name whitespace-nowrap">
-            <Search className="w-4 mr-2" />
-            {projectName.split("\\")[projectName.split("\\").length - 1]} - Codium
-          </span>
-        ) : (
-          <span className="flex items-center text-xs text-gray-400 project-name whitespace-nowrap p-0.5">
-            <Search className="w-4 mr-2" />
-            Codium
-          </span>
-        )}
+        {projectName
+          ? `${projectName.split("\\")[projectName.split("\\").length - 1]} - Codium`
+          : "Codium"}
       </div>
-      <div className="titlebar-actions">
+      <div className="flex items-center">
         <img
-          className="titlebar-icon"
+          className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:bg-gray-800"
           src={minimize}
           alt="Minimize"
           title="Minimize"
@@ -100,7 +50,7 @@ export const TitleBar = () => {
         />
         {isScaleUp ? (
           <img
-            className="titlebar-icon"
+            className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:bg-gray-800"
             src={restoreDown}
             alt="Restore Down"
             title="Restore Down"
@@ -108,7 +58,7 @@ export const TitleBar = () => {
           />
         ) : (
           <img
-            className="titlebar-icon"
+            className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:bg-gray-800"
             src={maximize}
             alt="Maximize"
             title="Maximize"
@@ -117,7 +67,7 @@ export const TitleBar = () => {
         )}
         <img
           id="ttb-close"
-          className="titlebar-icon"
+          className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:text-gray-800 hover:bg-red-500"
           src={close}
           alt="Close"
           title="Close"

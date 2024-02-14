@@ -6,13 +6,11 @@ interface ISourceState {
   files: IFile[];
   selected: string;
   opened: string[];
-  contextMenu: IFile;
   updateProjectName: (projectName: string) => void;
   setFiles: (files: IFile[]) => void;
   setSelected: (selected: string) => void;
   addOpenedFile: (id: string) => void;
   closeOpenedFile: (id: string) => void;
-  setContextMenu: (contextMenu: IFile) => void;
 }
 
 export const useExplorer = create<ISourceState>((set) => ({
@@ -20,16 +18,17 @@ export const useExplorer = create<ISourceState>((set) => ({
   files: [],
   selected: "",
   opened: [],
-  contextMenu: {} as IFile,
   updateProjectName: (projectName: string) => set((state) => ({ ...state, projectName })),
   setFiles: (files: IFile[]) => set((state) => ({ ...state, files })),
   setSelected: (selected: string) => set((state) => ({ ...state, selected })),
   addOpenedFile: (id: string) =>
-    set((state) => ({ ...state, opened: [...state.opened, id] })),
+    set((state) => {
+      if (state.opened.includes(id)) return { ...state };
+      return { ...state, opened: [...state.opened, id] };
+    }),
   closeOpenedFile: (id: string) =>
     set((state) => ({
       ...state,
       opened: state.opened.filter((openedId) => openedId !== id),
     })),
-  setContextMenu: (contextMenu: IFile) => set((state) => ({ ...state, contextMenu })),
 }));

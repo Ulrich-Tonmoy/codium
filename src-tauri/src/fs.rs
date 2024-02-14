@@ -11,19 +11,9 @@ pub struct FileInfo {
     path: String,
 }
 
-#[derive(Serialize, Deserialize)]
-pub struct Post {
-    title: String,
-    created: String,
-    link: String,
-    description: String,
-    content: String,
-    author: String,
-}
-
 pub fn read_folder(dir_path: &str) -> String {
     let new_path = Path::new(dir_path);
-    println!("new path {:?}", new_path);
+    // println!("new path {:?}", new_path);
     let paths = fs::read_dir(new_path).unwrap();
 
     let mut files: Vec<FileInfo> = Vec::new();
@@ -85,6 +75,15 @@ pub fn read_file(path: &str) -> String {
 // update file and create new file
 pub fn write_file(path: &str, content: &str) -> String {
     let file_path = Path::new(path);
+
+    if let Some(parent) = file_path.parent() {
+        if !parent.exists() {
+            if let Err(err) = fs::create_dir_all(parent) {
+                return format!("ERROR creating directories: {}", err);
+            }
+        }
+    }
+
     let result = match fs::write(file_path, content) {
         Ok(()) => String::from("OK"),
         Err(_err) => String::from("ERROR"),

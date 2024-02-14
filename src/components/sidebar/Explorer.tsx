@@ -1,4 +1,4 @@
-import { ContextMenu, Button, NavFiles } from "@/components";
+import { Button, NavFiles } from "@/components";
 import { moreMenu } from "@/assets";
 import { readDirectory, useExplorer } from "@/libs";
 import { open } from "@tauri-apps/api/dialog";
@@ -18,9 +18,9 @@ export const Explorer = () => {
   };
 
   return (
-    <aside id="sidebar" className="h-full w-60 shrink-0 bg-darken">
+    <aside className="h-full w-60 shrink-0 bg-[#222426]">
       <div className="sidebar-header flex items-center justify-between p-2.5">
-        <span className="cursor-default project-explorer">
+        <span className="w-full text-xs text-left text-gray-400 capitalize cursor-default">
           {projectName
             ? projectName.split("\\")[projectName.split("\\").length - 1]
             : "Explorer"}
@@ -47,14 +47,13 @@ export const Explorer = () => {
       {!projectName && (
         <div className="flex flex-col items-center justify-center mt-5">
           <Button onClick={loadFile} variant="primary" className="h-8">
-            Open Folder
+            Open New Folder
           </Button>
         </div>
       )}
       <div className="code-structure">
         <NavFiles visible={true} files={files} />
       </div>
-      <ContextMenu />
     </aside>
   );
 };
