@@ -1,5 +1,5 @@
 import { IFile, getFileObject, useHorizontalScroll, useExplorer } from "@/libs";
-import { FileIcon, PreviewImage, CodeEditor } from "@/components";
+import { FileIcon, PreviewImage, MonacoEditor } from "@/components";
 import { MouseEvent } from "react";
 import { close } from "@/assets";
 
@@ -63,7 +63,7 @@ export const CodeArea = () => {
             );
           }
 
-          return <CodeEditor key={index} id={item} active={item === selected} />;
+          return <MonacoEditor key={index} id={item} active={item === selected} />;
         })}
       </div>
     </div>
