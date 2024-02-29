@@ -1,5 +1,5 @@
 import { IFile, getFileObject, useHorizontalScroll, useExplorer } from "@/libs";
-import { FileIcon, PreviewImage, MonacoEditor } from "@/components";
+import { FileIcon, PreviewImage, MonacoEditor, MonacoEditorReact } from "@/components";
 import { MouseEvent } from "react";
 import { close } from "@/assets";
 
@@ -9,7 +9,7 @@ export const CodeArea = () => {
   const scrollRef = useHorizontalScroll();
 
   const isImage = (name: string) => {
-    return [".png", ".gif", ".jpeg", ".jpg", ".bmp"].some(
+    return [".png", ".gif", ".jpeg", ".jpg", ".bmp", ".ico"].some(
       (ext) => name.lastIndexOf(ext) !== -1,
     );
   };
@@ -63,7 +63,8 @@ export const CodeArea = () => {
             );
           }
 
-          return <MonacoEditor key={index} id={item} active={item === selected} />;
+          return <MonacoEditorReact key={index} id={item} active={item === selected} />;
+          // return <MonacoEditor key={index} id={item} active={item === selected} />;
         })}
       </div>
     </div>

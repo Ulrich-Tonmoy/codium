@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
-import { editor } from "monaco-editor";
-import { Editor } from "@monaco-editor/react";
+import { useEffect, useRef, useState } from "react";
 import { getFileObject, readFile } from "@/libs";
+import "@/libs/monacoWorker";
+import * as monaco from "monaco-editor";
 
 interface MonacoEditorProps {
   id: string;
@@ -9,63 +9,55 @@ interface MonacoEditorProps {
 }
 
 export const MonacoEditor = ({ id, active }: MonacoEditorProps) => {
-  const visible = active ? "" : "hidden";
-  const editorRef = useRef<editor.IStandaloneCodeEditor>();
-  const [value, setValue] = useState("");
-  const [language, setLanguage] = useState("typescript");
+  const editorRef = useRef<HTMLElement | null>(null);
+  const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
 
-  const onMount = (editor: editor.IStandaloneCodeEditor) => {
-    editorRef.current = editor;
-    editor.focus();
-    updateEditorContent(id);
-  };
+  useEffect(() => {
+    const updateEditorContent = async () => {
+      if (editorRef) {
+        const file = getFileObject(id);
+        const content = await readFile(file.path);
+        let lang = "typescript";
+        switch (file.name.split(".")[file.name.split(".").length - 1]) {
+          case "tsx":
+            lang = "typescript";
+            break;
+          case "ts":
+            lang = "typescript";
+            break;
+          case "css":
+            lang = "css";
+            break;
+          case "html":
+            lang = "html";
+            break;
+          case "json":
+            lang = "json";
+            break;
+          case "md":
+            lang = "markdown";
+            break;
+          default:
+            lang = "javascript";
+            break;
+        }
+        setEditor((editor) => {
+          if (editor) return editor;
+          return monaco.editor.create(editorRef.current!, {
+            value: content,
+            language: lang,
+            theme: "vs-dark",
+          });
+        });
+      }
+    };
 
-  const updateEditorContent = async (id: string) => {
-    const file = getFileObject(id);
-    const content = await readFile(file.path);
-    let lang = "typescript";
-    switch (file.name.split(".")[file.name.split(".").length - 1]) {
-      case "tsx":
-        lang = "typescript";
-        break;
-      case "ts":
-        lang = "typescript";
-        break;
-      case "css":
-        lang = "css";
-        break;
-      case "html":
-        lang = "html";
-        break;
-      case "json":
-        lang = "json";
-        break;
-      default:
-        break;
-    }
-    setLanguage(lang);
-    setValue(content);
-  };
+    updateEditorContent();
 
-  return (
-    <main
-      className={`w-full overflow-y-auto ${visible}`}
-      style={{ height: "calc(100vh - 40px)" }}
-    >
-      <Editor
-        className="h-full"
-        height="100vh"
-        options={{
-          minimap: {
-            enabled: true,
-          },
-        }}
-        theme="vs-dark"
-        language={language}
-        onMount={onMount}
-        value={value}
-        onChange={(value) => setValue(value as string)}
-      />
-    </main>
-  );
+    return () => editor?.dispose();
+  }, [editorRef, id, active]);
+
+  if (!active) return;
+
+  return <main ref={editorRef} className="w-full overflow-y-auto h-[calc(100vh-40px)]" />;
 };
