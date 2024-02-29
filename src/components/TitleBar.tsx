@@ -42,7 +42,7 @@ export const TitleBar = () => {
       </div>
       <div className="flex items-center">
         <img
-          className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:bg-gray-800"
+          className="px-2 py-1 text-center cursor-pointer size-8 hover:bg-gray-800"
           src={minimize}
           alt="Minimize"
           title="Minimize"
@@ -50,7 +50,7 @@ export const TitleBar = () => {
         />
         {isScaleUp ? (
           <img
-            className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:bg-gray-800"
+            className="px-2 py-1 text-center cursor-pointer size-8 hover:bg-gray-800"
             src={restoreDown}
             alt="Restore Down"
             title="Restore Down"
@@ -58,7 +58,7 @@ export const TitleBar = () => {
           />
         ) : (
           <img
-            className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:bg-gray-800"
+            className="px-2 py-1 text-center cursor-pointer size-8 hover:bg-gray-800"
             src={maximize}
             alt="Maximize"
             title="Maximize"
@@ -67,7 +67,7 @@ export const TitleBar = () => {
         )}
         <img
           id="ttb-close"
-          className="px-2 py-1 text-center cursor-pointer w-7 h-7 hover:text-gray-800 hover:bg-red-500"
+          className="px-2 py-1 text-center cursor-pointer size-8 hover:text-gray-800 hover:bg-red-500"
           src={close}
           alt="Close"
           title="Close"
