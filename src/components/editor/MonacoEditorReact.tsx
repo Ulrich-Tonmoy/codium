@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { editor } from "monaco-editor";
 import { Editor } from "@monaco-editor/react";
-import { getFileObject, readFile } from "@/libs";
+import { LANGUAGE_EXTENSIONS, getFileObject, readFile } from "@/libs";
 
 interface MonacoEditorReactProps {
   id: string;
@@ -22,30 +22,9 @@ export const MonacoEditorReact = ({ id, active }: MonacoEditorReactProps) => {
   const updateEditorContent = async (id: string) => {
     const file = getFileObject(id);
     const content = await readFile(file.path);
-    let lang = "typescript";
-    switch (file.name.split(".")[file.name.split(".").length - 1]) {
-      case "tsx":
-        lang = "typescript";
-        break;
-      case "ts":
-        lang = "typescript";
-        break;
-      case "css":
-        lang = "css";
-        break;
-      case "html":
-        lang = "html";
-        break;
-      case "json":
-        lang = "json";
-        break;
-      case "md":
-        lang = "markdown";
-        break;
-      default:
-        lang = "javascript";
-        break;
-    }
+    let lang =
+      LANGUAGE_EXTENSIONS[file.name.split(".")[file.name.split(".").length - 1]] ||
+      "javascript";
     setLanguage(lang);
     setValue(content);
   };

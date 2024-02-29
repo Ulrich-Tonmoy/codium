@@ -1,0 +1,18 @@
+export const LANGUAGE_EXTENSIONS: Record<string, string> = {
+  html: "html",
+  css: "css",
+  js: "javascript",
+  jsx: "javascript",
+  json: "json",
+  ts: "typescript",
+  tsx: "typescript",
+  md: "markdown",
+  zig: "zig",
+  h: "c",
+  c: "c",
+  rs: "rust",
+  hpp: "c++",
+  cpp: "c++",
+  py: "python",
+  cs: "csharp",
+};
