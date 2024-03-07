@@ -16,6 +16,7 @@
 - [x] Removed context menu
 - [x] Migrate to monaco from codemirror
 - [x] Release build file size optimize by half
+- [ ] Add Better Explorer with shadcn
 - [ ] Add Unsaved File alert
 
 ## Recommended Setup To Work in Windows
