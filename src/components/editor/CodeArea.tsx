@@ -1,10 +1,11 @@
 import { IFile, getFileObject, useHorizontalScroll, useExplorer } from "@/libs";
-import { FileIcon, PreviewImage, MonacoEditor, MonacoEditorReact } from "@/components";
+import { FileIcon, PreviewImage, MonacoEditor } from "@/components";
 import { MouseEvent } from "react";
 import { close } from "@/assets";
 
 export const CodeArea = () => {
-  const { selected, setSelected, closeOpenedFile, opened } = useExplorer();
+  const { selected, setSelected, closeOpenedFile, opened, files } = useExplorer();
+  const config = files.find((file) => file.name === "tsconfig.json") as IFile;
 
   const scrollRef = useHorizontalScroll();
 
@@ -63,8 +64,14 @@ export const CodeArea = () => {
             );
           }
 
-          return <MonacoEditorReact key={index} id={item} active={item === selected} />;
-          // return <MonacoEditor key={index} id={item} active={item === selected} />;
+          return (
+            <MonacoEditor
+              key={index}
+              id={item}
+              active={item === selected}
+              config={config}
+            />
+          );
         })}
       </div>
     </div>

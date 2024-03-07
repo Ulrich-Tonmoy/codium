@@ -35,7 +35,6 @@ export const NavFolderItem = ({ file, active }: Props) => {
 
     const entries = await readDirectory(file.path + "/");
     setLoaded(true);
-    console.log(entries);
     setFiles(entries);
     setUnFold(!unFold);
   };
