@@ -13,26 +13,24 @@ export const NavFiles = ({ visible, files }: Props) => {
   const onShow = async (e: MouseEvent<HTMLDivElement, MouseEvent>, file: IFile) => {
     e.stopPropagation();
 
-    if (file.kind === "file") {
-      setSelected(file.id);
-      addOpenedFile(file.id);
-    }
+    setSelected(file.path);
+    addOpenedFile(file.path);
   };
 
   return (
     <div className={`source-codes ${visible ? "" : "hidden"}`}>
       {files?.map((file) => {
-        const isSelected = file.id === selected;
+        const isSelected = file.path === selected;
 
-        if (file.kind === "directory") {
-          return <NavFolderItem active={isSelected} key={file.id} file={file} />;
+        if (file.children) {
+          return <NavFolderItem active={isSelected} key={file.path} file={file} />;
         }
 
         return (
           <div
             // @ts-ignore
             onClick={(e) => onShow(e, file)}
-            key={file.id}
+            key={file.path}
             className={`source-item ${
               isSelected ? "source-item-active" : ""
             } flex items-center ml-4 gap-2 py-0.5 text-gray-500 hover:text-gray-300 cursor-pointer`}

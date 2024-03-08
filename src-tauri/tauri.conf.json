@@ -20,6 +20,9 @@
       "protocol": {
         "asset": true,
         "assetScope": ["**"]
+      },
+      "fs": {
+        "scope": ["**"]
       }
     },
     "bundle": {
@@ -39,9 +42,14 @@
         "fullscreen": false,
         "resizable": true,
         "title": "codium",
-        "width": 800,
-        "height": 600,
-        "decorations": false
+        "width": 1000,
+        "height": 700,
+        "minWidth": 500,
+        "minHeight": 350,
+        "decorations": false,
+        "center": true,
+        "transparent": true,
+        "titleBarStyle": "Visible"
       }
     ]
   }

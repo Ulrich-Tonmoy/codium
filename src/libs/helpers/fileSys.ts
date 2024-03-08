@@ -1,96 +1,80 @@
-import { invoke } from "@tauri-apps/api/tauri";
-import { nanoid } from "nanoid";
-import { IFile, saveFileObject } from "@/libs";
+import { FileSysError, IFile, loadFileObject } from "@/libs";
+import {
+  createDir,
+  readDir,
+  readTextFile,
+  removeDir,
+  removeFile,
+  writeTextFile,
+} from "@tauri-apps/api/fs";
+import { ask } from "@tauri-apps/api/dialog";
+import { basename } from "@tauri-apps/api/path";
 
-export const readFile = (filePath: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    invoke("get_file_content", { filePath })
-      .then((message: unknown) => {
-        resolve(message as string);
-      })
-      .catch((error) => reject(error));
-  });
+export const readFile = async (filePath: string): Promise<string> => {
+  const contents = await readTextFile(filePath);
+  return contents;
 };
 
-export const writeFile = (filePath: string, content: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    invoke("write_file", { filePath, content }).then((message: unknown) => {
-      if (message === "OK") {
-        resolve(message as string);
-      } else {
-        reject("ERROR");
-      }
-    });
-  });
+export const writeFile = async (filePath: string, content: string): Promise<string> => {
+  await writeTextFile(filePath, content);
+  return FileSysError.OK;
 };
 
-export const createFolder = (filePath: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    invoke("create_folder", { folderPath: filePath }).then((message: unknown) => {
-      if (message === "OK") {
-        resolve(message as string);
-      } else {
-        reject("ERROR");
-      }
-    });
-  });
+export const createFolder = async (folderPath: string): Promise<string> => {
+  await createDir(folderPath, { recursive: true });
+  return FileSysError.OK;
 };
 
-export const deleteFolder = (filePath: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    invoke("delete_folder", { folderPath: filePath }).then((message: unknown) => {
-      if (message === "OK") {
-        resolve(message as string);
-      } else {
-        reject("ERROR");
-      }
-    });
-  });
+export const deleteFolder = async (dirPath: string): Promise<string> => {
+  const folderName = await basename(dirPath);
+
+  const confirmed = await ask(
+    `Are you sure you want to delete folder name '${folderName}'?\nThis action cannot be reverted.`,
+    {
+      title: `Are you sure you want to delete folder name '${folderName}'?`,
+      type: "warning",
+    },
+  );
+
+  if (!confirmed) return FileSysError.CANCEL;
+  await removeDir(dirPath, { recursive: true });
+  return FileSysError.OK;
 };
 
-export const deleteFile = (filePath: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    invoke("delete_file", { filePath }).then((message: unknown) => {
-      if (message === "OK") {
-        resolve(message as string);
-      } else {
-        reject("ERROR");
-      }
-    });
-  });
+export const deleteFile = async (filePath: string): Promise<string> => {
+  const fileName = await basename(filePath);
+
+  const confirmed = await ask(
+    `Are you sure you want to delete '${fileName}'?\nThis action cannot be reverted.`,
+    {
+      title: `Are you sure you want to delete '${fileName}'?`,
+      type: "warning",
+    },
+  );
+
+  if (!confirmed) return FileSysError.CANCEL;
+  await removeFile(filePath);
+  return FileSysError.OK;
 };
 
-export const readDirectory = (folderPath: string): Promise<IFile[]> => {
-  return new Promise((resolve, _reject) => {
-    invoke("open_folder", { folderPath }).then((message: unknown) => {
-      const msg = message as string;
-      const files = JSON.parse(msg.replaceAll("\\", "/").replaceAll("//", "/"));
-      const entries: IFile[] = [];
-      const folders: IFile[] = [];
+export const readDirectory = async (folderPath: string): Promise<IFile[]> => {
+  const fileTree = await readDir(folderPath, { recursive: true });
+  const customSort = (a: any, b: any) => {
+    if (a.children && !b.children) return -1;
+    if (!a.children && b.children) return 1;
+    return a.name.localeCompare(b.name);
+  };
 
-      if (!files || !files.length) {
-        resolve(entries);
-        return;
+  const sortFileTree = (tree: any) => {
+    tree.forEach((node: any) => {
+      if (node.children) {
+        node.children = sortFileTree(node.children);
       }
-
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const id = nanoid();
-        const entry: IFile = {
-          id,
-          kind: file.kind,
-          name: file.name,
-          path: file.path,
-        };
-
-        if (file.kind === "file") {
-          entries.push(entry);
-        } else {
-          folders.push(entry);
-        }
-        saveFileObject(id, entry);
-      }
-      resolve([...folders, ...entries]);
     });
-  });
+    return tree.sort(customSort);
+  };
+  const sortedFileTree = sortFileTree(fileTree);
+  loadFileObject(sortedFileTree);
+
+  return sortedFileTree;
 };

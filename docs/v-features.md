@@ -1,3 +1,12 @@
+### 0.0.4:
+
+- [x] Migrate to Zustand from Redux
+- [x] Use shadcn/ui
+- [x] Removed context menu
+- [x] Migrate to monaco from codemirror
+- [x] Release build file size optimize by half
+- [x] Use Tauri fs instead of Rust custom fs
+
 ### 0.0.3:
 
 - [x] Migrated to Redux Toolkit

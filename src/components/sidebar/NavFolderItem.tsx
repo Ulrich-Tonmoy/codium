@@ -1,5 +1,4 @@
-import { nanoid } from "nanoid";
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavFiles } from "@/components";
 import {
   arrowDown,
@@ -10,7 +9,7 @@ import {
   folderCreate,
   folderOpen,
 } from "@/assets";
-import { IFile, saveFileObject, createFolder, readDirectory, writeFile } from "@/libs";
+import { IFile, saveFileObject, createFolder, writeFile } from "@/libs";
 
 interface Props {
   file: IFile;
@@ -33,10 +32,8 @@ export const NavFolderItem = ({ file, active }: Props) => {
       return;
     }
 
-    const entries = await readDirectory(file.path + "/");
     setLoaded(true);
-    console.log(entries);
-    setFiles(entries);
+    file.children && setFiles(file.children);
     setUnFold(!unFold);
   };
 
@@ -63,28 +60,24 @@ export const NavFolderItem = ({ file, active }: Props) => {
 
     if (newFile) {
       writeFile(filePath, "").then(() => {
-        const id = nanoid();
         const newFile: IFile = {
-          id,
           name: filename,
           path: filePath,
-          kind: "file",
+          children: null,
         };
-        saveFileObject(id, newFile);
+        saveFileObject(newFile);
         setFiles((prevFiles) => [newFile, ...prevFiles]);
         setNewFile(false);
         setFilename("");
       });
     } else if (newFolder) {
       createFolder(filePath).then(() => {
-        const id = nanoid();
         const newFolder: IFile = {
-          id,
           name: filename,
           path: filePath,
-          kind: "directory",
+          children: null,
         };
-        saveFileObject(id, newFolder);
+        saveFileObject(newFolder);
         setFiles((prevFiles) => [newFolder, ...prevFiles]);
         setNewFolder(false);
         setFilename("");

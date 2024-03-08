@@ -4,33 +4,46 @@
     <h3>A Text Editor built on Tauri.</h3>
 </div>
 
+> [!NOTE]
+>
+> ### [Download For Windows From Here](https://github.com/Ulrich-Tonmoy/codium/releases)
+>
+> ### [Features lists here](./docs/v-features.md)
+
 <div id="vscodium-logo" align="center">
     <img src="./docs/codium.png" alt="Codium" width="330"/>
-    <img src="./docs/core.png" alt="Code flow" width="330"/>
 </div>
 
-### 0.0.4 (Currently working):
+### 0.0.5 (Currently working):
 
-- [x] Migrate to Zustand from Redux
-- [x] Use shadcn/ui
-- [x] Removed context menu
-- [ ] Migrate to monaco from codemirror
+- [ ] Add Context Menu to explorer
 - [ ] Add Unsaved File alert
 
-## Recommended Setup To Work in Windows
+### Technologies
 
-- [Desktop development with c++](https://learn.microsoft.com/en-us/cpp/build/vscpp-step-0-installation?view=msvc-170) + [Rust](https://www.rust-lang.org/tools/install)
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+- [x] Tauri
+- [x] React
+- [x] TypeScript
+- [x] Tailwind CSS
+- [x] Shadcn/ui
+- [x] Zustand
+- [x] Monaco Editor
 
-## To Run
+## How to run (Windows)
 
-```properties
-npm i
-npm run tauri dev
-```
+> [!TIP]
+> Recommended IDE Setup
+>
+> - [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 
-## To Build
+> [!IMPORTANT]  
+> Tools Needed
+>
+> - [Node.js](https://nodejs.org/en/download/) + [Rust](https://www.rust-lang.org/tools/install) + [Visual Studio C++ toolchain](https://visualstudio.microsoft.com/vs/features/cplusplus/)
 
-```properties
-npm run tauri build
-```
+> [!NOTE]  
+> Commands
+>
+> - Open the folder in `vs code` or `terminal`.
+> - Run the `npm i` to install the packages.
+> - Then run the `npm run tauri dev` to run the project.

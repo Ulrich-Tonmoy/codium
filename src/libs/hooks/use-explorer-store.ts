@@ -21,14 +21,14 @@ export const useExplorer = create<ISourceState>((set) => ({
   updateProjectName: (projectName: string) => set((state) => ({ ...state, projectName })),
   setFiles: (files: IFile[]) => set((state) => ({ ...state, files })),
   setSelected: (selected: string) => set((state) => ({ ...state, selected })),
-  addOpenedFile: (id: string) =>
+  addOpenedFile: (path: string) =>
     set((state) => {
-      if (state.opened.includes(id)) return { ...state };
-      return { ...state, opened: [...state.opened, id] };
+      if (state.opened.includes(path)) return { ...state };
+      return { ...state, opened: [...state.opened, path] };
     }),
-  closeOpenedFile: (id: string) =>
+  closeOpenedFile: (path: string) =>
     set((state) => ({
       ...state,
-      opened: state.opened.filter((openedId) => openedId !== id),
+      opened: state.opened.filter((openedPath) => openedPath !== path),
     })),
 }));
