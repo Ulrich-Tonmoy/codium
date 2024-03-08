@@ -20,7 +20,7 @@ export const MonacoEditor = ({ path, active, config }: MonacoEditorProps) => {
       if (editorRef) {
         const file = getFileObject(path);
         const content = await readFile(file.path);
-        const compilerOptions: any = await readFile(config.path);
+        const compilerOptions: any = config?.path ? await readFile(config.path) : {};
         const modelUri = monaco.Uri.file(file.path);
         let lang =
           LANGUAGE_EXTENSIONS[file.name.split(".")[file.name.split(".").length - 1]] ||

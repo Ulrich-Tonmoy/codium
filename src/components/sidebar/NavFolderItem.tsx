@@ -9,7 +9,7 @@ import {
   folderCreate,
   folderOpen,
 } from "@/assets";
-import { IFile, saveFileObject, createFolder, readDirectory, writeFile } from "@/libs";
+import { IFile, saveFileObject, createFolder, writeFile } from "@/libs";
 
 interface Props {
   file: IFile;
@@ -32,9 +32,8 @@ export const NavFolderItem = ({ file, active }: Props) => {
       return;
     }
 
-    const entries = await readDirectory(file.path + "/");
     setLoaded(true);
-    setFiles(entries);
+    file.children && setFiles(file.children);
     setUnFold(!unFold);
   };
 
@@ -78,7 +77,7 @@ export const NavFolderItem = ({ file, active }: Props) => {
           path: filePath,
           children: null,
         };
-        saveFileObject(id, newFolder);
+        saveFileObject(newFolder);
         setFiles((prevFiles) => [newFolder, ...prevFiles]);
         setNewFolder(false);
         setFilename("");
