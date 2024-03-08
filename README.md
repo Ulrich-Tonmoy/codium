@@ -9,14 +9,9 @@
     <img src="./docs/core.png" alt="Code flow" width="330"/>
 </div>
 
-### 0.0.4 (Currently working):
+### 0.0.5 (Currently working):
 
-- [x] Migrate to Zustand from Redux
-- [x] Use shadcn/ui
-- [x] Removed context menu
-- [x] Migrate to monaco from codemirror
-- [x] Release build file size optimize by half
-- [ ] Add Better Explorer with shadcn
+- [ ] Add Context Menu to explorer
 - [ ] Add Unsaved File alert
 
 ## Recommended Setup To Work in Windows
