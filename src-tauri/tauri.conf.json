@@ -20,6 +20,9 @@
       "protocol": {
         "asset": true,
         "assetScope": ["**"]
+      },
+      "fs": {
+        "scope": ["**"]
       }
     },
     "bundle": {
