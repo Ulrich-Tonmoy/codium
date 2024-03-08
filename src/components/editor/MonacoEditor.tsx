@@ -5,12 +5,12 @@ import * as monaco from "monaco-editor";
 import ts from "typescript";
 
 interface MonacoEditorProps {
-  id: string;
+  path: string;
   active: boolean;
   config: IFile;
 }
 
-export const MonacoEditor = ({ id, active, config }: MonacoEditorProps) => {
+export const MonacoEditor = ({ path, active, config }: MonacoEditorProps) => {
   const editorRef = useRef<HTMLElement | null>(null);
   const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
   const modelRef = useRef<monaco.editor.ITextModel | null>(null);
@@ -18,7 +18,7 @@ export const MonacoEditor = ({ id, active, config }: MonacoEditorProps) => {
   useEffect(() => {
     const updateEditorContent = async () => {
       if (editorRef) {
-        const file = getFileObject(id);
+        const file = getFileObject(path);
         const content = await readFile(file.path);
         const compilerOptions: any = await readFile(config.path);
         const modelUri = monaco.Uri.file(file.path);
@@ -29,7 +29,6 @@ export const MonacoEditor = ({ id, active, config }: MonacoEditorProps) => {
         if (modelRef.current) {
           modelRef.current.dispose();
         }
-
         modelRef.current = monaco.editor.createModel(content, lang, modelUri);
         monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
           tsx: ts.JsxEmit.React,
@@ -72,7 +71,7 @@ export const MonacoEditor = ({ id, active, config }: MonacoEditorProps) => {
       editor?.dispose();
       modelRef.current?.dispose();
     };
-  }, [editorRef, id, active]);
+  }, [editorRef, path, active]);
 
   if (!active) return;
 

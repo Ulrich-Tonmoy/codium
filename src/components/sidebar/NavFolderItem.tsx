@@ -1,5 +1,4 @@
-import { nanoid } from "nanoid";
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavFiles } from "@/components";
 import {
   arrowDown,
@@ -62,26 +61,22 @@ export const NavFolderItem = ({ file, active }: Props) => {
 
     if (newFile) {
       writeFile(filePath, "").then(() => {
-        const id = nanoid();
         const newFile: IFile = {
-          id,
           name: filename,
           path: filePath,
-          kind: "file",
+          children: null,
         };
-        saveFileObject(id, newFile);
+        saveFileObject(newFile);
         setFiles((prevFiles) => [newFile, ...prevFiles]);
         setNewFile(false);
         setFilename("");
       });
     } else if (newFolder) {
       createFolder(filePath).then(() => {
-        const id = nanoid();
         const newFolder: IFile = {
-          id,
           name: filename,
           path: filePath,
-          kind: "directory",
+          children: null,
         };
         saveFileObject(id, newFolder);
         setFiles((prevFiles) => [newFolder, ...prevFiles]);

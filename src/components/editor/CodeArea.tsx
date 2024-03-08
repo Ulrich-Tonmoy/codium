@@ -15,13 +15,13 @@ export const CodeArea = () => {
     );
   };
 
-  const onSelectItem = (id: string) => {
-    setSelected(id);
+  const onSelectItem = (path: string) => {
+    setSelected(path);
   };
 
-  const onClose = (e: MouseEvent<HTMLElement, MouseEvent>, id: string) => {
+  const onClose = (e: MouseEvent<HTMLElement, MouseEvent>, path: string) => {
     e.stopPropagation();
-    closeOpenedFile(id);
+    closeOpenedFile(path);
   };
 
   return (
@@ -30,15 +30,15 @@ export const CodeArea = () => {
         ref={scrollRef}
         className="flex items-center overflow-x-auto border-b divide-x code-tab-items border-stone-800 divide-stone-800"
       >
-        {opened?.map((item: any) => {
-          const file = getFileObject(item) as IFile;
-          const active = selected === item ? "bg-[#222426] text-gray-400" : "";
+        {opened?.map((path: any) => {
+          const file = getFileObject(path) as IFile;
+          const active = selected === path ? "bg-[#222426] text-gray-400" : "";
 
           return (
             <div
-              onClick={() => onSelectItem(file.id)}
+              onClick={() => onSelectItem(file.path)}
               className={`tab-item shrink-0 px-2 py-0.5 text-gray-500 cursor-pointer hover:text-gray-400 flex items-center gap-2 ${active}`}
-              key={file.id}
+              key={file.path}
             >
               <FileIcon name={file.name} size="sm" />
               <span>{file.name}</span>
@@ -49,26 +49,26 @@ export const CodeArea = () => {
                 alt="Close"
                 title="Close"
                 // @ts-ignore
-                onClick={(e) => onClose(e, item)}
+                onClick={(e) => onClose(e, path)}
               />
             </div>
           );
         })}
       </div>
       <div className="code-contents">
-        {opened.map((item: any, index: any) => {
-          const file = getFileObject(item) as IFile;
+        {opened.map((path: any, index: any) => {
+          const file = getFileObject(path) as IFile;
           if (isImage(file.name)) {
             return (
-              <PreviewImage key={index} path={file.path} active={item === selected} />
+              <PreviewImage key={index} path={file.path} active={path === selected} />
             );
           }
 
           return (
             <MonacoEditor
               key={index}
-              id={item}
-              active={item === selected}
+              path={path}
+              active={path === selected}
               config={config}
             />
           );
