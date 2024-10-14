@@ -2,41 +2,20 @@
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist",
-    "withGlobalTauri": false
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420"
   },
-  "package": {
-    "productName": "Codium",
-    "version": "0.0.4"
+  "bundle": {
+    "active": true,
+    "icon": ["icons/logo.png", "icons/logo.ico"],
+    "targets": "all"
   },
-  "tauri": {
-    "allowlist": {
-      "all": true,
-      "shell": {
-        "all": false,
-        "open": true
-      },
-      "protocol": {
-        "asset": true,
-        "assetScope": ["**"]
-      },
-      "fs": {
-        "scope": ["**"]
-      }
-    },
-    "bundle": {
-      "active": true,
-      "icon": ["icons/logo.png", "icons/logo.ico"],
-      "identifier": "Codium",
-      "targets": "all"
-    },
-    "security": {
-      "csp": null
-    },
-    "updater": {
-      "active": false
-    },
+  "productName": "Codium",
+  "mainBinaryName": "Codium",
+  "version": "0.0.4",
+  "identifier": "Codium",
+  "app": {
+    "withGlobalTauri": false,
     "windows": [
       {
         "fullscreen": false,
@@ -51,6 +30,13 @@
         "transparent": true,
         "titleBarStyle": "Visible"
       }
-    ]
+    ],
+    "security": {
+      "assetProtocol": {
+        "scope": ["**"],
+        "enable": true
+      },
+      "csp": null
+    }
   }
 }

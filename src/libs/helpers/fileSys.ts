@@ -1,13 +1,12 @@
 import { FileSysError, IFile, loadFileObject } from "@/libs";
 import {
-  createDir,
+  mkdir,
   readDir,
   readTextFile,
-  removeDir,
-  removeFile,
+  remove,
   writeTextFile,
-} from "@tauri-apps/api/fs";
-import { ask } from "@tauri-apps/api/dialog";
+} from "@tauri-apps/plugin-fs";
+import { ask } from "@tauri-apps/plugin-dialog";
 import { basename } from "@tauri-apps/api/path";
 
 export const readFile = async (filePath: string): Promise<string> => {
@@ -21,7 +20,7 @@ export const writeFile = async (filePath: string, content: string): Promise<stri
 };
 
 export const createFolder = async (folderPath: string): Promise<string> => {
-  await createDir(folderPath, { recursive: true });
+  await mkdir(folderPath, { recursive: true });
   return FileSysError.OK;
 };
 
@@ -32,12 +31,12 @@ export const deleteFolder = async (dirPath: string): Promise<string> => {
     `Are you sure you want to delete folder name '${folderName}'?\nThis action cannot be reverted.`,
     {
       title: `Are you sure you want to delete folder name '${folderName}'?`,
-      type: "warning",
+      kind: "warning",
     },
   );
 
   if (!confirmed) return FileSysError.CANCEL;
-  await removeDir(dirPath, { recursive: true });
+  await remove(dirPath, { recursive: true });
   return FileSysError.OK;
 };
 
@@ -48,17 +47,17 @@ export const deleteFile = async (filePath: string): Promise<string> => {
     `Are you sure you want to delete '${fileName}'?\nThis action cannot be reverted.`,
     {
       title: `Are you sure you want to delete '${fileName}'?`,
-      type: "warning",
+      kind: "warning",
     },
   );
 
   if (!confirmed) return FileSysError.CANCEL;
-  await removeFile(filePath);
+  await remove(filePath);
   return FileSysError.OK;
 };
 
 export const readDirectory = async (folderPath: string): Promise<IFile[]> => {
-  const fileTree = await readDir(folderPath, { recursive: true });
+  const fileTree = await readDir(folderPath);
   const customSort = (a: any, b: any) => {
     if (a.children && !b.children) return -1;
     if (!a.children && b.children) return 1;

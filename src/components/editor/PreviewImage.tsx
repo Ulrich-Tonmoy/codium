@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { convertFileSrc } from "@tauri-apps/api/tauri";
+import { convertFileSrc } from "@tauri-apps/api/core";
 
 interface Props {
   path: string;

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { appWindow } from "@tauri-apps/api/window";
+import { getCurrentWebviewWindow } from "@tauri-apps/api/webviewWindow";
 import { close, maximize, minimize, restoreDown } from "@/assets";
 import { useExplorer } from "@/libs";
+const appWindow = getCurrentWebviewWindow()
 
 export const TitleBar = () => {
   const { projectName } = useExplorer();

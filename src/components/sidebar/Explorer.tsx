@@ -1,7 +1,7 @@
 import { Button, NavFiles } from "@/components";
 import { moreMenu } from "@/assets";
 import { readDirectory, useExplorer } from "@/libs";
-import { open } from "@tauri-apps/api/dialog";
+import { open } from "@tauri-apps/plugin-dialog";
 
 export const Explorer = () => {
   const { files, setFiles, projectName, updateProjectName } = useExplorer();
